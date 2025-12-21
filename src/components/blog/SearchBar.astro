@@ -1,0 +1,96 @@
+---
+import { Search } from 'lucide-react';
+---
+
+<div class="relative mb-8">
+  <input
+    type="text"
+    placeholder="Search posts..."
+    class="w-full pl-10 pr-4 py-3 border border-input bg-background rounded-lg text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 placeholder:text-muted-foreground"
+    id="search-input"
+  />
+  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+</div>
+
+<script>
+  // Wait for DOM and data to be ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const postsGrid = document.getElementById('posts-grid');
+    const noResults = document.getElementById('no-results');
+    
+    if (!searchInput || !postsGrid || !noResults) {
+      console.error('Search components not found');
+      return;
+    }
+
+    // Wait for blog posts data to be available
+    const waitForData = function() {
+      if (typeof window.blogPosts === 'undefined') {
+        setTimeout(waitForData, 100);
+        return;
+      }
+
+      console.log('Blog posts loaded:', window.blogPosts.length);
+      initializeSearch();
+    };
+
+    const initializeSearch = function() {
+      let searchTimeout;
+
+      // Simple fallback search function
+      const performSearch = function(query) {
+        const postCards = postsGrid.querySelectorAll('.post-card');
+        
+        if (!query || query.trim() === '') {
+          postCards.forEach(card => {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+          });
+          noResults.classList.add('hidden');
+          return;
+        }
+
+        const lowerQuery = query.toLowerCase();
+        let visibleCount = 0;
+
+        postCards.forEach(card => {
+          const title = (card.dataset.title || '').toLowerCase();
+          const description = (card.dataset.description || '').toLowerCase();
+          const tags = (card.dataset.tags || '').toLowerCase();
+          
+          const matchesSearch = title.includes(lowerQuery) || 
+                                description.includes(lowerQuery) || 
+                                tags.includes(lowerQuery);
+
+          if (matchesSearch) {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            visibleCount++;
+          } else {
+            card.style.opacity = '0.3';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 200);
+          }
+        });
+
+        // Show/hide no results message
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+        } else {
+          noResults.classList.add('hidden');
+        }
+      };
+
+      searchInput.addEventListener('input', function(e) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          performSearch(e.target.value);
+        }, 300);
+      });
+    };
+
+    waitForData();
+  });
+</script>

@@ -2,25 +2,174 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
+import TableOfContents from '../../components/blog/TableOfContents.astro';
+
+// Helper functions for processing content
+function extractHeadings(html: string) {
+  const headings: Array<{ id: string; text: string; level: number }> = [];
+  
+  // Simple regex-based heading extraction for server-side
+  const headingRegex = /<h([2-6])([^>]*)>(.*?)<\/h\1>/gi;
+  let match;
+  let index = 0;
+  
+  while ((match = headingRegex.exec(html)) !== null) {
+    const level = parseInt(match[1]);
+    const text = match[3].replace(/<[^>]*>/g, ''); // Remove HTML tags
+    const id = `heading-${index}`;
+    
+    headings.push({ id, text, level });
+    index++;
+  }
+  
+  return headings;
+}
+
+function extractReferences(html: string) {
+  // Extract author-date citations like (Smith, 2024)
+  const citationRegex = /\(([^)]+)\)/g;
+  const citations: string[] = [];
+  let match;
+  
+  while ((match = citationRegex.exec(html)) !== null) {
+    const citationText = match[1];
+    citations.push(citationText);
+  }
+  
+  return citations; // Would be processed further
+}
+
+function calculateReadingTime(html: string) {
+  // Rough estimate: 200 words per minute
+  const wordsPerMinute = 200;
+  // Remove HTML tags and count words
+  const plainText = html ? html.replace(/<[^>]*>/g, ' ') : '';
+  const words = plainText.split(/\s+/).filter(word => word.length > 0).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return minutes;
+}
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
-  return blogEntries.map((entry: any) => ({
-    params: { slug: entry.slug }, props: { entry },
+  return blogEntries.map((entry) => ({
+    params: { slug: entry.slug }, 
+    props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+
+// Extract headings for TOC
+const content = await entry.render();
+const headings = extractHeadings(content.html);
+
+// Extract citations from content
+const references = extractReferences(content.html);
+
+// Calculate reading time
+const readingTime = calculateReadingTime(content.html);
 ---
 
 <Layout title={`${entry.data.title} | iamr`}>
   <Header />
-  <main class="container py-8 max-w-2xl">
-    <h1 class="text-4xl font-bold mb-2">{entry.data.title}</h1>
-    <p class="text-muted-foreground mb-8">By {entry.data.author} on {entry.data.pubDate.toLocaleDateString()}</p>
-    <article class="prose dark:prose-invert">
-      <Content />
-    </article>
+  
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="reading-progress"></div>
+  
+  <main class="container py-8 max-w-4xl mx-auto">
+    
+    <!-- Article Header with Metadata -->
+    <div class="mb-8">
+      <h1 class="text-5xl font-light mb-4">{entry.data.title}</h1>
+      <div class="flex items-center gap-4 mb-8">
+        <p class="text-muted-foreground">By {entry.data.author} on {entry.data.pubDate.toLocaleDateString()}</p>
+        <div class="flex gap-2">
+          <span class="inline-flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium">
+            {entry.data.difficulty || 'intermediate'}
+          </span>
+          <span class="inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-xs font-medium">
+            {readingTime} min read
+          </span>
+        </div>
+        {entry.data.tags && (
+          <div class="flex gap-2 flex-wrap">
+            {entry.data.tags.map((tag: string) => (
+              <span class="inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+    
+    <!-- Table of Contents -->
+    {headings.length > 3 && (
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
+        <div class="lg:col-span-3">
+          <TableOfContents headings={headings} />
+        </div>
+        <div class="lg:col-span-1">
+          <!-- Article Content -->
+          <div class="code-block-wrapper">
+            <article class="prose-technical">
+              <Content />
+            </article>
+          </div>
+        </div>
+      </div>
+    )}
+    
+    <!-- Article Content for shorter posts -->
+    {headings.length <= 3 && (
+      <article class="prose-technical">
+        <Content />
+      </article>
+    )}
+    
+    <!-- Citations Section -->
+    {references && references.length > 0 && (
+      <section class="references mt-8 pt-8 border-t">
+        <h2 class="text-2xl font-semibold mb-4">References</h2>
+        <ol class="list-decimal list-inside space-y-2">
+          {references.map((ref: string) => (
+            <li class="text-muted-foreground">{ref}</li>
+          ))}
+        </ol>
+      </section>
+    )}
+    
+    <!-- Navigation -->
+    <div class="flex justify-between items-center mt-12 pt-8 border-t">
+      <a 
+        href="/blog" 
+        class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors"
+      >
+        <span class="mr-2">←</span> Back to Blog
+      </a>
+      <div class="flex gap-4">
+        <!-- Previous/Next links would be implemented here -->
+        <a 
+          href="/blog" 
+          class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-colors"
+        >
+          All Posts
+        </a>
+      </div>
+    </div>
   </main>
 </Layout>
+
+<script>
+  // Reading progress bar
+  const progressBar = document.getElementById('reading-progress');
+  if (progressBar) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = (scrollTop / scrollHeight) * 100;
+      progressBar.style.width = progress + '%';
+    });
+  }
+</script>

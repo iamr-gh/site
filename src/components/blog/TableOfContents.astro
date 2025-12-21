@@ -1,0 +1,66 @@
+---
+interface Props {
+  headings: Array<{
+    id: string;
+    text: string;
+    level: number;
+  }>;
+}
+
+const { headings } = Astro.props;
+---
+
+<div class="toc">
+  <div class="toc-title">Table of Contents</div>
+  <ul class="toc-list">
+    {headings.map(heading => (
+      <li>
+        <a 
+          href={`#${heading.id}`}
+          class="toc-item"
+          data-level={heading.level}
+        >
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<script>
+  // Highlight active TOC item on scroll
+  const tocItems = document.querySelectorAll('.toc-item');
+  const sections = document.querySelectorAll('h2, h3');
+  
+  function updateActiveTOC() {
+    let currentSection = '';
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 100) {
+        currentSection = section.id;
+      }
+    });
+    
+    tocItems.forEach(item => {
+      if (item.getAttribute('href') === `#${currentSection}`) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+  
+  window.addEventListener('scroll', updateActiveTOC);
+  
+  // Smooth scroll to sections
+  document.querySelectorAll('.toc-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.getAttribute('href').slice(1);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+</script>
