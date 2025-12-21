@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import TableOfContents from '../../components/blog/TableOfContents.astro';
@@ -57,7 +57,7 @@ export async function getStaticPaths() {
   }));
 }
 
-const { entry } = Astro.props;
+const { entry }: { entry: CollectionEntry<'blog'> } = Astro.props;
 const { Content } = await entry.render();
 
 // Extract headings for TOC
@@ -79,30 +79,7 @@ const readingTime = calculateReadingTime(content.html);
   
   <main class="container py-8 max-w-4xl mx-auto">
     
-    <!-- Article Header with Metadata -->
-    <div class="mb-8">
-      <h1 class="text-5xl font-light mb-4">{entry.data.title}</h1>
-      <div class="flex items-center gap-4 mb-8">
-        <p class="text-muted-foreground">By {entry.data.author} on {entry.data.pubDate.toLocaleDateString()}</p>
-        <div class="flex gap-2">
-          <span class="inline-flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium">
-            {entry.data.difficulty || 'intermediate'}
-          </span>
-          <span class="inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-xs font-medium">
-            {readingTime} min read
-          </span>
-        </div>
-        {entry.data.tags && (
-          <div class="flex gap-2 flex-wrap">
-            {entry.data.tags.map((tag: string) => (
-              <span class="inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
-                #{tag}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    
     
     <!-- Table of Contents -->
     {headings.length > 3 && (
@@ -113,7 +90,7 @@ const readingTime = calculateReadingTime(content.html);
         <div class="lg:col-span-1">
           <!-- Article Content -->
           <div class="code-block-wrapper">
-            <article class="prose-technical">
+            <article class="prose-technical dark:prose-invert">
               <Content />
             </article>
           </div>
@@ -123,7 +100,7 @@ const readingTime = calculateReadingTime(content.html);
     
     <!-- Article Content for shorter posts -->
     {headings.length <= 3 && (
-      <article class="prose-technical">
+      <article class="prose-technical dark:prose-invert">
         <Content />
       </article>
     )}
@@ -139,6 +116,28 @@ const readingTime = calculateReadingTime(content.html);
         </ol>
       </section>
     )}
+    
+    <!-- Footer with metadata -->
+    <footer class="mt-12 pt-8 border-t">
+      <div class="space-y-4">
+        <!-- Tags -->
+        {entry.data.tags && (
+          <div class="flex gap-2 flex-wrap">
+            {entry.data.tags.map((tag: string) => (
+              <span class="inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-lg text-xs font-medium">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+        
+        <!-- Author/date metadata -->
+        <div class="text-sm text-muted-foreground">
+          <p>By {entry.data.author} on {entry.data.pubDate.toLocaleDateString()}</p>
+          <p>{readingTime} min read</p>
+        </div>
+      </div>
+    </footer>
     
     <!-- Navigation -->
     <div class="flex justify-between items-center mt-12 pt-8 border-t">

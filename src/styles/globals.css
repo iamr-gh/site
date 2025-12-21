@@ -10,7 +10,7 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 24.6 95% 53.1%;
+    --primary: 24.6 65% 53.1%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
@@ -33,7 +33,7 @@
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 20.5 90.2% 48.2%;
+    --primary: 24.6 60% 48.2%;
     --primary-foreground: 60 9.1% 97.8%;
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -112,4 +112,182 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Enhanced technical prose styling */
+.prose-technical {
+  @apply prose prose-lg leading-relaxed max-w-4xl;
+}
+
+.prose-technical h1 {
+  @apply text-5xl font-light mb-8;
+}
+
+.prose-technical h2 {
+  @apply text-4xl font-light mb-6;
+}
+
+.prose-technical h3 {
+  @apply text-3xl font-light mb-4;
+}
+
+.prose-technical p {
+  @apply mb-6 leading-8;
+}
+
+.prose-technical blockquote {
+  @apply border-l-4 border-primary pl-6 italic my-6 bg-secondary/20 py-4;
+}
+
+.prose-technical pre {
+  @apply bg-muted rounded-lg p-4 overflow-x-auto;
+}
+
+.prose-technical code {
+  @apply bg-muted px-2 py-1 rounded text-sm font-mono;
+}
+
+.prose-technical figure {
+  @apply my-8;
+}
+
+.prose-technical figcaption {
+  @apply text-center text-sm text-muted-foreground mt-2;
+}
+
+.prose-technical ul,
+.prose-technical ol {
+  @apply my-6 space-y-2;
+}
+
+.prose-technical li {
+  @apply leading-relaxed;
+}
+
+.prose-technical table {
+  @apply w-full border-collapse border border-border;
+}
+
+.prose-technical th,
+.prose-technical td {
+  @apply border border-border p-3 text-left;
+}
+
+.prose-technical th {
+  @apply bg-muted font-medium;
+}
+
+/* Citation styling */
+.citation {
+  @apply text-primary underline decoration-dotted underline-offset-2;
+}
+
+.citation:hover {
+  @apply decoration-solid;
+}
+
+.references {
+  @apply mt-12 pt-8 border-t border-border;
+}
+
+.references h2 {
+  @apply text-2xl font-medium mb-4;
+}
+
+.references ol {
+  @apply space-y-3;
+}
+
+.references li {
+  @apply text-sm leading-relaxed;
+}
+
+/* Code block enhancements for rehype-pretty-code */
+.code-block-wrapper {
+  @apply relative;
+}
+
+/* Enhanced code block styling */
+pre {
+  @apply bg-[#0d1117] rounded-lg p-4 overflow-x-auto border border-[#30363d];
+}
+
+code {
+  @apply text-sm font-mono;
+}
+
+/* Line numbers styling */
+.line {
+  @apply flex;
+}
+
+.line::before {
+  @apply mr-4 text-gray-500 select-none text-xs;
+  content: attr(data-line-number);
+}
+
+/* Language label styling */
+[data-language]::before {
+  @apply absolute top-2 right-2 bg-gray-700 text-white px-2 py-1 rounded text-xs;
+  content: attr(data-language);
+}
+
+/* Copy button styling */
+.copy-button {
+  @apply absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white px-2 py-1 rounded text-xs opacity-0 transition-opacity;
+}
+
+pre:hover .copy-button {
+  @apply opacity-100;
+}
+
+/* GitHub Dark theme specific adjustments */
+.shiki {
+  @apply bg-[#0d1117];
+}
+
+.code-block-header {
+  @apply flex justify-between items-center mb-2 px-3 py-1 bg-muted rounded-t-md;
+}
+
+.code-block-title {
+  @apply text-sm font-medium text-muted-foreground;
+}
+
+.code-block-actions {
+  @apply flex gap-2;
+}
+
+.code-block-content {
+  @apply rounded-b-md;
+}
+
+.line-numbers {
+  @apply select-none pr-4 text-muted-foreground/50 text-xs leading-6;
+}
+
+/* TOC styling */
+.toc {
+  @apply sticky top-4 bg-card border rounded-lg p-4 max-h-[calc(100vh-2rem)] overflow-y-auto;
+}
+
+.toc-title {
+  @apply font-medium mb-3 text-sm;
+}
+
+.toc-list {
+  @apply space-y-2 text-sm;
+}
+
+.toc-item {
+  @apply block py-1 text-muted-foreground hover:text-foreground transition-colors;
+}
+
+.toc-item.active {
+  @apply text-primary font-medium;
+}
+
+/* Reading progress */
+.reading-progress {
+  @apply fixed top-0 left-0 w-full h-1 bg-primary origin-left scale-x-0 transition-transform z-50;
 }

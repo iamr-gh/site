@@ -3,7 +3,7 @@ title: 'Next Blog Post'
 pubDate: 2025-12-20
 description: 'This is the second post of my new blog.'
 author: 'Ibrahim Musaddequr Rahman'
-tags: ['performance', 'ai', 'software-development']
+tags: ['performance']
 ---
 
 # Better Software, Faster
@@ -28,3 +28,42 @@ Things that can be slow:
 My standard for all AI usage is it should not be noticable. 
 If AI is used on a project, it should be up to basic humans standards. 
 This is most notable in writing, but applies to code as well.
+
+## Example Code
+
+Here's some sample code to demonstrate syntax highlighting:
+
+```javascript
+// Function to calculate reading time
+function calculateReadingTime(text) {
+  const wordsPerMinute = 200;
+  const words = text.split(/\s+/).filter(word => word.length > 0).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return minutes;
+}
+
+// Usage example
+const sampleText = "This is a sample text for reading time calculation.";
+const readingTime = calculateReadingTime(sampleText);
+console.log(`Reading time: ${readingTime} minutes`);
+```
+
+```typescript
+interface BlogPost {
+  title: string;
+  content: string;
+  author: string;
+  publishDate: Date;
+  tags: string[];
+}
+
+const posts: BlogPost[] = [
+  {
+    title: "Example Post",
+    content: "Sample content here...",
+    author: "Developer",
+    publishDate: new Date(),
+    tags: ["typescript", "programming"]
+  }
+];
+```

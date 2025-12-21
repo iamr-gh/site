@@ -33,7 +33,7 @@ const { post, class: className = "" } = Astro.props;
         <div class="flex items-center justify-between">
           <div class="flex gap-2 flex-wrap">
             {post.data.tags?.map(tag => (
-              <span class="inline-flex items-center px-2 py-1 bg-secondary text-secondary-foreground rounded-full text-xs font-medium">
+              <span class="inline-flex items-center px-2 py-1 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium">
                 {tag}
               </span>
             ))}

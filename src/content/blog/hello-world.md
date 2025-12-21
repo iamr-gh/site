@@ -3,7 +3,7 @@ title: 'Hello World'
 pubDate: 2025-12-20
 description: 'This is the first post of my new blog.'
 author: 'Ibrahim Musaddequr Rahman'
-tags: ['astro', 'shadcn/ui']
+tags: ['astro']
 ---
 
 # Welcome to my new blog!

@@ -25,18 +25,16 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sor
         <div class="flex gap-2 flex-wrap" id="tag-filters">
           <!-- All button -->
           <button 
-            class="tag-filter-btn active"
+            class="tag-filter-btn active inline-flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors"
             data-tag=""
-            class="inline-flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-primary/90 transition-colors"
           >
             All
           </button>
           <!-- Dynamic tags -->
           {allTags.map(tag => (
             <button 
-              class="tag-filter-btn"
+              class="tag-filter-btn inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
               data-tag={tag}
-              class="inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               {tag}
             </button>
@@ -44,7 +42,7 @@ const allTags = [...new Set(allPosts.flatMap(post => post.data.tags || []))].sor
           <!-- Clear button -->
           <button 
             id="clear-tags"
-            class="inline-flex items-center px-3 py-1 bg-muted text-muted-foreground rounded-full text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+            class="inline-flex items-center px-3 py-1 bg-muted text-muted-foreground rounded-lg text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             Clear
           </button>
