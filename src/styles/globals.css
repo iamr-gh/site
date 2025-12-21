@@ -241,9 +241,29 @@ pre:hover .copy-button {
   @apply opacity-100;
 }
 
-/* GitHub Dark theme specific adjustments */
-.shiki {
-  @apply bg-[#0d1117];
+/* Override code block background to match page theme */
+figure[data-rehype-pretty-code-figure] pre {
+  background-color: hsl(var(--muted)) !important;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0.5rem;
+}
+
+/* Force GitHub Dark colors for page-matching background */
+figure[data-rehype-pretty-code-figure] code span[style*="--shiki-dark"] {
+  color: var(--shiki-dark) !important;
+}
+
+/* Fix TypeScript language label positioning */
+[data-language]::before {
+  top: 8px !important;
+  left: 8px !important;
+  right: auto !important;
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
 }
 
 .code-block-header {
