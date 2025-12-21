@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en" class="dark"> <head><meta charset="UTF-8"><meta name="description" content="Ibrahim Musaddequr Rahman - Software Developer specializing in programming languages, compilers, and machine learning"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><title>Next Blog Post | iamr</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/_slug_.CFy2Ihj9.css"></head> <body class="font-sans font-noto-sans">  <header class="p-4 border-b"> <nav class="container flex justify-between items-center"> <a href="/" class="text-xl font-light tracking-wide">iamr</a> <ul class="flex gap-4 font-light"> <li><a href="/" class="hover:underline">Home</a></li> <li><a href="/blog" class="hover:underline">Blog</a></li> <li><a href="/projects" class="hover:underline">Projects</a></li> </ul> </nav> </header>  <div class="reading-progress" id="reading-progress"></div> <main class="container py-8 max-w-4xl mx-auto"> <!-- Table of Contents -->  <!-- Article Content for shorter posts --> <article class="prose-technical dark:prose-invert"> <h1 id="better-software-faster">Better Software, Faster</h1>
+<p>I have recently started a <a href="/hello-world">new blog</a>, as a place to showcase and store various projects of mine. As such, I am starting with my goals for all software I write.</p>
+<h2 id="portability">Portability</h2>
+<h2 id="performance">Performance</h2>
+<p>Modern compilers and hardware are very fast. If anything does not load instantly, there should be a good justification for why.</p>
+<p>Things that should be fast(instantaneous) and responsive:</p>
+<ul>
+<li>website content</li>
+<li>cli tools</li>
+</ul>
+<p>Things that can be slow:</p>
+<ul>
+<li>Machine learning tasks</li>
+<li>Intensive live graphics</li>
+<li>Complex tasks</li>
+</ul>
+<h2 id="ai-usage">AI Usage</h2>
+<p>My standard for all AI usage is it should not be noticable.
+If AI is used on a project, it should be up to basic humans standards.
+This is most notable in writing, but applies to code as well.</p>
+<h2 id="example-code">Example Code</h2>
+<p>Here’s some sample code to demonstrate syntax highlighting:</p>
+<figure data-rehype-pretty-code-figure=""><pre style="background-color:#24292e;color:#e1e4e8" tabindex="0" data-language="javascript" data-theme="github-dark"><code data-language="javascript" data-theme="github-dark"><span data-line=""><span style="color:#6A737D">// Function to calculate reading time</span></span>
+<span data-line=""><span style="color:#F97583">function</span><span style="color:#B392F0"> calculateReadingTime</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">text</span><span style="color:#E1E4E8">) {</span></span>
+<span data-line=""><span style="color:#F97583">  const</span><span style="color:#79B8FF"> wordsPerMinute</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> 200</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#F97583">  const</span><span style="color:#79B8FF"> words</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> text.</span><span style="color:#B392F0">split</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">/</span><span style="color:#79B8FF">\s</span><span style="color:#F97583">+</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">).</span><span style="color:#B392F0">filter</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">word</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> word.</span><span style="color:#79B8FF">length</span><span style="color:#F97583"> ></span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">).</span><span style="color:#79B8FF">length</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#F97583">  const</span><span style="color:#79B8FF"> minutes</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> Math.</span><span style="color:#B392F0">ceil</span><span style="color:#E1E4E8">(words </span><span style="color:#F97583">/</span><span style="color:#E1E4E8"> wordsPerMinute);</span></span>
+<span data-line=""><span style="color:#F97583">  return</span><span style="color:#E1E4E8"> minutes;</span></span>
+<span data-line=""><span style="color:#E1E4E8">}</span></span>
+<span data-line=""></span>
+<span data-line=""><span style="color:#6A737D">// Usage example</span></span>
+<span data-line=""><span style="color:#F97583">const</span><span style="color:#79B8FF"> sampleText</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> "This is a sample text for reading time calculation."</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#F97583">const</span><span style="color:#79B8FF"> readingTime</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> calculateReadingTime</span><span style="color:#E1E4E8">(sampleText);</span></span>
+<span data-line=""><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`Reading time: ${</span><span style="color:#E1E4E8">readingTime</span><span style="color:#9ECBFF">} minutes`</span><span style="color:#E1E4E8">);</span></span></code></pre></figure>
+<figure data-rehype-pretty-code-figure=""><pre style="background-color:#24292e;color:#e1e4e8" tabindex="0" data-language="typescript" data-theme="github-dark"><code data-language="typescript" data-theme="github-dark"><span data-line=""><span style="color:#F97583">interface</span><span style="color:#B392F0"> BlogPost</span><span style="color:#E1E4E8"> {</span></span>
+<span data-line=""><span style="color:#FFAB70">  title</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#FFAB70">  content</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#FFAB70">  author</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#FFAB70">  publishDate</span><span style="color:#F97583">:</span><span style="color:#B392F0"> Date</span><span style="color:#E1E4E8">;</span></span>
+<span data-line=""><span style="color:#FFAB70">  tags</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">[];</span></span>
+<span data-line=""><span style="color:#E1E4E8">}</span></span>
+<span data-line=""></span>
+<span data-line=""><span style="color:#F97583">const</span><span style="color:#79B8FF"> posts</span><span style="color:#F97583">:</span><span style="color:#B392F0"> BlogPost</span><span style="color:#E1E4E8">[] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [</span></span>
+<span data-line=""><span style="color:#E1E4E8">  {</span></span>
+<span data-line=""><span style="color:#E1E4E8">    title: </span><span style="color:#9ECBFF">"Example Post"</span><span style="color:#E1E4E8">,</span></span>
+<span data-line=""><span style="color:#E1E4E8">    content: </span><span style="color:#9ECBFF">"Sample content here..."</span><span style="color:#E1E4E8">,</span></span>
+<span data-line=""><span style="color:#E1E4E8">    author: </span><span style="color:#9ECBFF">"Developer"</span><span style="color:#E1E4E8">,</span></span>
+<span data-line=""><span style="color:#E1E4E8">    publishDate: </span><span style="color:#F97583">new</span><span style="color:#B392F0"> Date</span><span style="color:#E1E4E8">(),</span></span>
+<span data-line=""><span style="color:#E1E4E8">    tags: [</span><span style="color:#9ECBFF">"typescript"</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">"programming"</span><span style="color:#E1E4E8">]</span></span>
+<span data-line=""><span style="color:#E1E4E8">  }</span></span>
+<span data-line=""><span style="color:#E1E4E8">];</span></span></code></pre></figure> </article> <!-- Citations Section -->  <!-- Footer with metadata --> <footer class="mt-12 pt-8 border-t"> <div class="space-y-4"> <!-- Tags --> <div class="flex gap-2 flex-wrap"> <span class="inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-lg text-xs font-medium">
+#performance </span> </div> <!-- Author/date metadata --> <div class="text-sm text-muted-foreground"> <p>By Ibrahim Musaddequr Rahman on 12/19/2025</p> <p>0 min read</p> </div> </div> </footer> <!-- Navigation --> <div class="flex justify-between items-center mt-12 pt-8 border-t"> <a href="/blog" class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors"> <span class="mr-2">←</span> Back to Blog
+</a> <div class="flex gap-4"> <!-- Previous/Next links would be implemented here --> <a href="/blog" class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-colors">
+All Posts
+</a> </div> </div> </main>  </body></html> <script type="module">const e=document.getElementById("reading-progress");e&&window.addEventListener("scroll",()=>{const t=window.pageYOffset||document.documentElement.scrollTop,o=document.documentElement.scrollHeight-document.documentElement.clientHeight,n=t/o*100;e.style.width=n+"%"});</script>

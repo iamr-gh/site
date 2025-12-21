@@ -1,0 +1,29 @@
+{
+  "name": "personal-site",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro": "^5.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "fuse.js": "^7.1.0",
+    "lucide-react": "^0.562.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "rehype-pretty-code": "^0.14.1",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^3.0.0",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.0.0"
+  }
+}
