@@ -1,0 +1,228 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+---
+
+<Layout title="Projects | iamr">
+  <Header />
+  <main class="container py-8 px-4">
+    <div class="space-y-8">
+      <div class="text-center space-y-4">
+        <h1 class="text-4xl md:text-5xl font-bold">Projects</h1>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          A collection of my work spanning systems programming, machine learning, web development, and game development.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- comptime-nn -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-semibold">comptime-nn</h3>
+              <p class="text-sm text-muted-foreground">
+                Compute all gradient functions for neural networks at compile time using Zig's comptime capabilities.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Zig</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Machine Learning</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Compilers</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Compile-time</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-medium">Key Features:</h4>
+              <ul class="text-sm text-muted-foreground space-y-1">
+                <li>• Compile-time gradient computation</li>
+                <li>• Zero runtime overhead</li>
+                <li>• Type safety at compile time</li>
+              </ul>
+            </div>
+            <a 
+              href="https://github.com/iamr-gh/comptime-nn" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- multithreaded_swarm_sim -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-semibold">multithreaded_swarm_sim</h3>
+              <p class="text-sm text-muted-foreground">
+                High-performance multithreading swarm simulations to improve performance and build bigger simulation engines.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Rust</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Systems Programming</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Performance</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Multithreading</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-medium">Key Features:</h4>
+              <ul class="text-sm text-muted-foreground space-y-1">
+                <li>• Multithreaded particle simulation</li>
+                <li>• Customizable physics engine</li>
+                <li>• High-performance rendering</li>
+              </ul>
+            </div>
+            <a 
+              href="https://github.com/iamr-gh/multithreaded_swarm_sim" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Hand-of-Light-RTS -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-semibold">Hand-of-Light-RTS</h3>
+              <p class="text-sm text-muted-foreground">
+                Real-time strategy game development project built with C# and Unity.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">C#</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Unity</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Game Development</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">RTS</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-medium">Key Features:</h4>
+              <ul class="text-sm text-muted-foreground space-y-1">
+                <li>• Real-time strategy mechanics</li>
+                <li>• Unit management system</li>
+                <li>• Strategic gameplay elements</li>
+              </ul>
+            </div>
+            <a 
+              href="https://github.com/iamr-gh/Hand-of-Light-RTS" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- MHACKS-14-fastrfood -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-semibold">MHACKS-14-fastrfood</h3>
+              <p class="text-sm text-muted-foreground">
+                Webapp to crowdsource dining hall wait times and calculate fastest paths to food.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">JavaScript</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">CSS</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Web Development</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Hackathon</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-medium">Key Features:</h4>
+              <ul class="text-sm text-muted-foreground space-y-1">
+                <li>• Real-time wait time tracking</li>
+                <li>• Route optimization algorithms</li>
+                <li>• Crowdsourced data collection</li>
+              </ul>
+            </div>
+            <a 
+              href="https://github.com/iamr-gh/MHACKS-14-fastrfood" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- personal-site -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-semibold">personal-site</h3>
+              <p class="text-sm text-muted-foreground">
+                Personal site v1 - my first version of a portfolio website.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">TypeScript</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Web Development</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Portfolio</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-medium">Key Features:</h4>
+              <ul class="text-sm text-muted-foreground space-y-1">
+                <li>• Responsive design</li>
+                <li>• Modern web technologies</li>
+                <li>• Portfolio showcase</li>
+              </ul>
+            </div>
+            <a 
+              href="https://github.com/iamr-gh/personal-site" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- qr -->
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
+          <div class="p-6 space-y-4">
+            <div class="space-y-2">
+              <h3 class="text-xl font-semibold">qr</h3>
+              <p class="text-sm text-muted-foreground">
+                Bespoke QR code implementation from scratch in JavaScript.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">JavaScript</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Algorithms</span>
+              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Data Structures</span>
+            </div>
+            <div class="space-y-2">
+              <h4 class="text-sm font-medium">Key Features:</h4>
+              <ul class="text-sm text-muted-foreground space-y-1">
+                <li>• Custom QR code generation</li>
+                <li>• No external dependencies</li>
+                <li>• Lightweight implementation</li>
+              </ul>
+            </div>
+            <a 
+              href="https://github.com/iamr-gh/qr" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
+            >
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center pt-8">
+        <p class="text-sm text-muted-foreground">
+          Want to see more? Check out my <a href="https://github.com/iamr-gh" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">GitHub profile</a> for 37+ repositories.
+        </p>
+      </div>
+    </div>
+  </main>
+</Layout>

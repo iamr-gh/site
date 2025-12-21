@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+
+const allPosts = await getCollection('blog');
+---
+
+<Layout title="Blog | iamr">
+  <Header />
+  <main class="container py-8">
+    <h1 class="text-3xl font-bold mb-6">Blog</h1>
+    <ul class="space-y-4">
+      {allPosts.map((post: any) => (
+        <li class="p-4 border rounded-lg hover:shadow-md transition-shadow">
+          <a href={`/blog/${post.slug}`}>
+            <h2 class="text-xl font-bold">{post.data.title}</h2>
+            <p class="text-muted-foreground">{post.data.pubDate.toLocaleDateString()}</p>
+            <p>{post.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</Layout>
