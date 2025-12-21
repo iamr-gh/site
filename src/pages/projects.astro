@@ -1,228 +1,173 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+
+const projects = [
+  {
+    id: 'comptime-nn',
+    title: 'comptime-nn',
+    description: 'Compile-time gradient computation for neural networks',
+    tech: ['Zig', 'ML', 'Compilers'],
+    url: 'https://github.com/iamr-gh/comptime-nn',
+    gradient: 'from-purple-900 via-blue-900 to-indigo-900',
+    size: 'large'
+  },
+  {
+    id: 'multithreaded_swarm_sim',
+    title: 'multithreaded_swarm_sim',
+    description: 'High-performance multithreading swarm simulations',
+    tech: ['Rust', 'Systems', 'Performance'],
+    url: 'https://github.com/iamr-gh/multithreaded_swarm_sim',
+    gradient: 'from-emerald-900 via-teal-900 to-cyan-900',
+    size: 'medium'
+  },
+  {
+    id: 'Hand-of-Light-RTS',
+    title: 'Hand-of-Light-RTS',
+    description: 'Real-time strategy game built with Unity',
+    tech: ['C#', 'Unity', 'Game Dev'],
+    url: 'https://github.com/iamr-gh/Hand-of-Light-RTS',
+    gradient: 'from-orange-900 via-red-900 to-pink-900',
+    size: 'medium'
+  },
+  {
+    id: 'MHACKS-14-fastrfood',
+    title: 'MHACKS-14-fastrfood',
+    description: 'Crowdsourced dining hall wait times',
+    tech: ['JavaScript', 'Web', 'Hackathon'],
+    url: 'https://github.com/iamr-gh/MHACKS-14-fastrfood',
+    gradient: 'from-yellow-900 via-amber-900 to-orange-900',
+    size: 'small'
+  },
+  {
+    id: 'personal-site',
+    title: 'personal-site',
+    description: 'Personal portfolio website v1',
+    tech: ['TypeScript', 'Web', 'Portfolio'],
+    url: 'https://github.com/iamr-gh/personal-site',
+    gradient: 'from-blue-900 via-indigo-900 to-purple-900',
+    size: 'small'
+  },
+  {
+    id: 'qr',
+    title: 'qr',
+    description: 'Bespoke QR code implementation',
+    tech: ['JavaScript', 'Algorithms'],
+    url: 'https://github.com/iamr-gh/qr',
+    gradient: 'from-gray-900 via-slate-900 to-zinc-900',
+    size: 'small'
+  }
+];
 ---
 
 <Layout title="Projects | iamr">
   <Header />
-  <main class="container py-8 px-4">
-    <div class="space-y-8">
+  <main class="min-h-screen bg-background px-4 py-8">
+    <div class="max-w-7xl mx-auto space-y-8">
       <div class="text-center space-y-4">
-        <h1 class="text-4xl md:text-5xl font-bold">Projects</h1>
-        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-          A collection of my work spanning systems programming, machine learning, web development, and game development.
+        <h1 class="text-3xl md:text-4xl font-light tracking-tight">Projects</h1>
+        <p class="text-sm text-muted-foreground max-w-xl mx-auto">
+          Selected work across systems programming, machine learning, and web development
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- comptime-nn -->
-        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
-          <div class="p-6 space-y-4">
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold">comptime-nn</h3>
-              <p class="text-sm text-muted-foreground">
-                Compute all gradient functions for neural networks at compile time using Zig's comptime capabilities.
-              </p>
+      <div class="mosaic-grid">
+        {projects.map((project) => (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={`project-card project-card--${project.size} group relative overflow-hidden rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl`}
+          >
+            <!-- Gradient Background -->
+            <div class={`absolute inset-0 bg-gradient-to-br ${project.gradient} opacity-90`}></div>
+            
+            <!-- Grid Pattern Overlay -->
+            <div class="absolute inset-0 opacity-10">
+              <div class="h-full w-full" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);"></div>
             </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Zig</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Machine Learning</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Compilers</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Compile-time</span>
+            
+            <!-- Content -->
+            <div class="relative h-full p-6 flex flex-col justify-between">
+              <div>
+                <h3 class="text-xl md:text-2xl font-light text-white mb-2 group-hover:translate-x-1 transition-transform duration-300">
+                  {project.title}
+                </h3>
+                <p class="text-sm text-white/80 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {project.description}
+                </p>
+              </div>
+              
+              <div class="flex items-center justify-between mt-auto">
+                <div class="flex gap-2 flex-wrap">
+                  {project.tech.slice(0, 3).map((tech) => (
+                    <span class="text-xs px-2 py-1 bg-white/20 backdrop-blur-sm rounded text-white/90">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <div class="text-white/60 group-hover:text-white transition-colors duration-300">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
+              </div>
             </div>
-            <div class="space-y-2">
-              <h4 class="text-sm font-medium">Key Features:</h4>
-              <ul class="text-sm text-muted-foreground space-y-1">
-                <li>• Compile-time gradient computation</li>
-                <li>• Zero runtime overhead</li>
-                <li>• Type safety at compile time</li>
-              </ul>
-            </div>
-            <a 
-              href="https://github.com/iamr-gh/comptime-nn" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-
-        <!-- multithreaded_swarm_sim -->
-        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
-          <div class="p-6 space-y-4">
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold">multithreaded_swarm_sim</h3>
-              <p class="text-sm text-muted-foreground">
-                High-performance multithreading swarm simulations to improve performance and build bigger simulation engines.
-              </p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Rust</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Systems Programming</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Performance</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Multithreading</span>
-            </div>
-            <div class="space-y-2">
-              <h4 class="text-sm font-medium">Key Features:</h4>
-              <ul class="text-sm text-muted-foreground space-y-1">
-                <li>• Multithreaded particle simulation</li>
-                <li>• Customizable physics engine</li>
-                <li>• High-performance rendering</li>
-              </ul>
-            </div>
-            <a 
-              href="https://github.com/iamr-gh/multithreaded_swarm_sim" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-
-        <!-- Hand-of-Light-RTS -->
-        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
-          <div class="p-6 space-y-4">
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold">Hand-of-Light-RTS</h3>
-              <p class="text-sm text-muted-foreground">
-                Real-time strategy game development project built with C# and Unity.
-              </p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">C#</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Unity</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Game Development</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">RTS</span>
-            </div>
-            <div class="space-y-2">
-              <h4 class="text-sm font-medium">Key Features:</h4>
-              <ul class="text-sm text-muted-foreground space-y-1">
-                <li>• Real-time strategy mechanics</li>
-                <li>• Unit management system</li>
-                <li>• Strategic gameplay elements</li>
-              </ul>
-            </div>
-            <a 
-              href="https://github.com/iamr-gh/Hand-of-Light-RTS" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-
-        <!-- MHACKS-14-fastrfood -->
-        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
-          <div class="p-6 space-y-4">
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold">MHACKS-14-fastrfood</h3>
-              <p class="text-sm text-muted-foreground">
-                Webapp to crowdsource dining hall wait times and calculate fastest paths to food.
-              </p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">JavaScript</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">CSS</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Web Development</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Hackathon</span>
-            </div>
-            <div class="space-y-2">
-              <h4 class="text-sm font-medium">Key Features:</h4>
-              <ul class="text-sm text-muted-foreground space-y-1">
-                <li>• Real-time wait time tracking</li>
-                <li>• Route optimization algorithms</li>
-                <li>• Crowdsourced data collection</li>
-              </ul>
-            </div>
-            <a 
-              href="https://github.com/iamr-gh/MHACKS-14-fastrfood" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-
-        <!-- personal-site -->
-        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
-          <div class="p-6 space-y-4">
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold">personal-site</h3>
-              <p class="text-sm text-muted-foreground">
-                Personal site v1 - my first version of a portfolio website.
-              </p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">TypeScript</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Web Development</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Portfolio</span>
-            </div>
-            <div class="space-y-2">
-              <h4 class="text-sm font-medium">Key Features:</h4>
-              <ul class="text-sm text-muted-foreground space-y-1">
-                <li>• Responsive design</li>
-                <li>• Modern web technologies</li>
-                <li>• Portfolio showcase</li>
-              </ul>
-            </div>
-            <a 
-              href="https://github.com/iamr-gh/personal-site" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-
-        <!-- qr -->
-        <div class="rounded-lg border bg-card text-card-foreground shadow-sm hover:shadow-lg transition-shadow">
-          <div class="p-6 space-y-4">
-            <div class="space-y-2">
-              <h3 class="text-xl font-semibold">qr</h3>
-              <p class="text-sm text-muted-foreground">
-                Bespoke QR code implementation from scratch in JavaScript.
-              </p>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">JavaScript</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Algorithms</span>
-              <span class="text-xs px-2 py-1 bg-secondary rounded font-medium">Data Structures</span>
-            </div>
-            <div class="space-y-2">
-              <h4 class="text-sm font-medium">Key Features:</h4>
-              <ul class="text-sm text-muted-foreground space-y-1">
-                <li>• Custom QR code generation</li>
-                <li>• No external dependencies</li>
-                <li>• Lightweight implementation</li>
-              </ul>
-            </div>
-            <a 
-              href="https://github.com/iamr-gh/qr" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 w-full"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
+          </a>
+        ))}
       </div>
 
       <div class="text-center pt-8">
-        <p class="text-sm text-muted-foreground">
-          Want to see more? Check out my <a href="https://github.com/iamr-gh" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">GitHub profile</a> for 37+ repositories.
+        <p class="text-xs text-muted-foreground">
+          37+ repositories on <a href="https://github.com/iamr-gh" class="text-primary hover:underline" target="_blank" rel="noopener noreferrer">GitHub</a>
         </p>
       </div>
     </div>
   </main>
+
+  <style>
+    .mosaic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-auto-rows: 200px;
+      gap: 1rem;
+      grid-auto-flow: dense;
+    }
+
+    @media (min-width: 768px) {
+      .mosaic-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 180px;
+      }
+      
+      .project-card--large {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+      
+      .project-card--medium {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      
+      .project-card--small {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .mosaic-grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 200px;
+      }
+    }
+
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
 </Layout>
