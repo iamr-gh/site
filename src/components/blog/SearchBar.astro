@@ -16,10 +16,10 @@ import { Search } from 'lucide-react';
   // Wait for DOM and data to be ready
   document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('search-input');
-    const postsGrid = document.getElementById('posts-grid');
+    const postsList = document.getElementById('posts-list');
     const noResults = document.getElementById('no-results');
     
-    if (!searchInput || !postsGrid || !noResults) {
+    if (!searchInput || !postsList || !noResults) {
       console.error('Search components not found');
       return;
     }
@@ -38,14 +38,12 @@ import { Search } from 'lucide-react';
     const initializeSearch = function() {
       let searchTimeout;
 
-      // Simple fallback search function
       const performSearch = function(query) {
-        const postCards = postsGrid.querySelectorAll('.post-card');
+        const postItems = postsList.querySelectorAll('.post-item');
         
         if (!query || query.trim() === '') {
-          postCards.forEach(card => {
-            card.style.display = 'block';
-            card.style.opacity = '1';
+          postItems.forEach(item => {
+            item.style.display = 'block';
           });
           noResults.classList.add('hidden');
           return;
@@ -54,24 +52,20 @@ import { Search } from 'lucide-react';
         const lowerQuery = query.toLowerCase();
         let visibleCount = 0;
 
-        postCards.forEach(card => {
-          const title = (card.dataset.title || '').toLowerCase();
-          const description = (card.dataset.description || '').toLowerCase();
-          const tags = (card.dataset.tags || '').toLowerCase();
+        postItems.forEach(item => {
+          const title = (item.dataset.title || '').toLowerCase();
+          const description = (item.dataset.description || '').toLowerCase();
+          const tags = (item.dataset.tags || '').toLowerCase();
           
           const matchesSearch = title.includes(lowerQuery) || 
                                 description.includes(lowerQuery) || 
                                 tags.includes(lowerQuery);
 
           if (matchesSearch) {
-            card.style.display = 'block';
-            card.style.opacity = '1';
+            item.style.display = 'block';
             visibleCount++;
           } else {
-            card.style.opacity = '0.3';
-            setTimeout(() => {
-              card.style.display = 'none';
-            }, 200);
+            item.style.display = 'none';
           }
         });
 

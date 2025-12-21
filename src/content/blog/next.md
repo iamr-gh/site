@@ -3,6 +3,7 @@ title: 'Next Blog Post'
 pubDate: 2025-12-20
 description: 'This is the second post of my new blog.'
 author: 'Ibrahim Musaddequr Rahman'
+tags: ['performance', 'ai', 'software-development']
 ---
 
 # Better Software, Faster
