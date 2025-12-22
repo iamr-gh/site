@@ -39,25 +39,30 @@ function extractReferences(html: string) {
   return citations; // Would be processed further
 }
 
-function calculateReadingTime(html: string) {
-  // Rough estimate: 200 words per minute
-  const wordsPerMinute = 200;
-  // Remove HTML tags and count words
-  const plainText = html ? html.replace(/<[^>]*>/g, ' ') : '';
-  const words = plainText.split(/\s+/).filter(word => word.length > 0).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return minutes;
-}
+
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
-  return blogEntries.map((entry) => ({
+  // Sort by publication date (newest first)
+  const sortedEntries = blogEntries.sort((a: any, b: any) => 
+    new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+  );
+  
+  return sortedEntries.map((entry: any, index: number) => ({
     params: { slug: entry.slug }, 
-    props: { entry },
+    props: { 
+      entry,
+      previousEntry: index > 0 ? sortedEntries[index - 1] : null,
+      nextEntry: index < sortedEntries.length - 1 ? sortedEntries[index + 1] : null,
+    },
   }));
 }
 
-const { entry }: { entry: CollectionEntry<'blog'> } = Astro.props;
+const { entry, previousEntry, nextEntry }: { 
+  entry: CollectionEntry<'blog'>, 
+  previousEntry: CollectionEntry<'blog'> | null,
+  nextEntry: CollectionEntry<'blog'> | null 
+} = Astro.props;
 const { Content } = await entry.render();
 
 // Extract headings for TOC
@@ -66,9 +71,6 @@ const headings = extractHeadings(content.html);
 
 // Extract citations from content
 const references = extractReferences(content.html);
-
-// Calculate reading time
-const readingTime = calculateReadingTime(content.html);
 ---
 
 <Layout title={`${entry.data.title} | iamr`}>
@@ -134,27 +136,62 @@ const readingTime = calculateReadingTime(content.html);
         <!-- Author/date metadata -->
         <div class="text-sm text-muted-foreground">
           <p>By {entry.data.author} on {entry.data.pubDate.toLocaleDateString()}</p>
-          <p>{readingTime} min read</p>
         </div>
       </div>
     </footer>
     
     <!-- Navigation -->
-    <div class="flex justify-between items-center mt-12 pt-8 border-t">
-      <a 
-        href="/blog" 
-        class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors"
-      >
-        <span class="mr-2">←</span> Back to Blog
-      </a>
-      <div class="flex gap-4">
-        <!-- Previous/Next links would be implemented here -->
-        <a 
-          href="/blog" 
-          class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-colors"
-        >
-          All Posts
-        </a>
+    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t">
+      <!-- Previous Post (left column) -->
+      <div class="text-left">
+        {previousEntry && (
+          <a 
+            href={`/blog/${previousEntry.slug}`}
+            class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors max-w-xs"
+          >
+            <span class="mr-2">←</span>
+            <div class="truncate">
+              <div class="text-xs opacity-75">Previous</div>
+              <div class="truncate">{previousEntry.data.title}</div>
+            </div>
+          </a>
+        )}
+      </div>
+      
+      <!-- Center column -->
+      <div class="text-center">
+        {(!previousEntry && !nextEntry) && (
+          <a 
+            href="/blog" 
+            class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-colors"
+          >
+            All Posts
+          </a>
+        )}
+        {(previousEntry || nextEntry) && (
+          <a 
+            href="/blog" 
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            Back to Blog
+          </a>
+        )}
+      </div>
+      
+      <!-- Next Post (right column) -->
+      <div class="text-right">
+        {nextEntry && (
+          <a 
+            href={`/blog/${nextEntry.slug}`}
+            class="inline-flex items-center justify-end px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors max-w-xs ml-auto"
+          >
+            <div class="truncate">
+              <div class="text-xs opacity-75">Next</div>
+              <div class="truncate">{nextEntry.data.title}</div>
+            </div>
+            <span class="ml-2">→</span>
+          </a>
+        )}
       </div>
     </div>
   </main>

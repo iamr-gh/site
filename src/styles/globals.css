@@ -226,11 +226,7 @@ code {
   content: attr(data-line-number);
 }
 
-/* Language label styling */
-[data-language]::before {
-  @apply absolute top-2 right-2 bg-gray-700 text-white px-2 py-1 rounded text-xs;
-  content: attr(data-language);
-}
+
 
 /* Copy button styling */
 .copy-button {
@@ -246,6 +242,7 @@ figure[data-rehype-pretty-code-figure] pre {
   background-color: hsl(var(--muted)) !important;
   border: 1px solid hsl(var(--border));
   border-radius: 0.5rem;
+  position: relative;
 }
 
 /* Force GitHub Dark colors for page-matching background */
@@ -253,18 +250,7 @@ figure[data-rehype-pretty-code-figure] code span[style*="--shiki-dark"] {
   color: var(--shiki-dark) !important;
 }
 
-/* Fix TypeScript language label positioning */
-[data-language]::before {
-  top: 8px !important;
-  left: 8px !important;
-  right: auto !important;
-  background: rgba(0, 0, 0, 0.8) !important;
-  color: white !important;
-  padding: 2px 6px !important;
-  border-radius: 4px !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-}
+
 
 .code-block-header {
   @apply flex justify-between items-center mb-2 px-3 py-1 bg-muted rounded-t-md;
@@ -305,6 +291,27 @@ figure[data-rehype-pretty-code-figure] code span[style*="--shiki-dark"] {
 
 .toc-item.active {
   @apply text-primary font-medium;
+}
+
+/* Typing cursor animation */
+.typing-cursor {
+  animation: blink-cursor 1.2s infinite;
+  color: hsl(var(--primary));
+  display: inline-block;
+  will-change: opacity;
+}
+
+@keyframes blink-cursor {
+  0%, 45% { opacity: 1; }    /* Visible for 45% */
+  46%, 100% { opacity: 0; }   /* Hidden for 55% */
+}
+
+/* Support for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .typing-cursor {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Reading progress */

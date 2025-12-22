@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
+import GithubActivity from '../components/GithubActivity.astro';
+import RecentPosts from '../components/RecentPosts.astro';
 import { Github, Linkedin, Mail } from 'lucide-react';
 ---
 
@@ -8,17 +10,16 @@ import { Github, Linkedin, Mail } from 'lucide-react';
   <Header />
   
   <!-- Hero Section -->
-  <section class="min-h-[60vh] flex items-center justify-center bg-gradient-to-br from-background to-secondary/20">
+  <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20">
     <div class="container text-center space-y-6 px-4">
       <h1 class="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-foreground font-serif animate-fade-in">
         Ibrahim Musaddequr Rahman
       </h1>
-      <p class="text-2xl md:text-3xl text-muted-foreground font-light animate-slide-up">
-        Software Developer
-      </p>
       <p class="text-lg md:text-xl text-muted-foreground font-light animate-slide-up-delayed">
-        Programming Languages • Compilers • Machine Learning
+        curious about <span id="interest-text" class="text-primary">machine learning</span>
       </p>
+      
+      <!-- Social Links -->
       <div class="flex gap-3 justify-center pt-6 animate-icons-appear">
         <a 
           href="https://github.com/iamr-gh" 
@@ -48,4 +49,103 @@ import { Github, Linkedin, Mail } from 'lucide-react';
       </div>
     </div>
   </section>
+  
+  <!-- Subtle Separator -->
+  <div class="border-b border-border/20 max-w-4xl mx-auto"></div>
+  
+  <!-- Content Section -->
+  <section class="container mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <!-- Currently Working On -->
+      <div class="space-y-4">
+        <GithubActivity />
+      </div>
+      
+      <!-- Recent Blog Posts -->
+      <div class="space-y-4">
+        <RecentPosts />
+      </div>
+    </div>
+  </section>
+  
+  
+<script>
+  // Animated interests cycling with typing effect
+  const interests = [
+    'machine learning',
+    'compilers',
+    'programming languages',
+    'computer architecture'
+  ];
+  
+  let currentIndex = 0;
+  const interestText = document.getElementById('interest-text') as HTMLElement;
+  
+  function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  // Create cursor element once and reuse it
+  let cursorElement: HTMLSpanElement | null = null;
+  
+  function ensureCursor(element: HTMLElement): HTMLSpanElement {
+    if (!cursorElement) {
+      cursorElement = document.createElement('span');
+      cursorElement.className = 'typing-cursor';
+      cursorElement.textContent = '|';
+    }
+    return cursorElement;
+  }
+  
+  async function typeText(text: string, element: HTMLElement) {
+    element.textContent = '';
+    const cursor = ensureCursor(element);
+    
+    // Type characters with cursor at the end (slower for better performance)
+    for (let i = 0; i <= text.length; i++) {
+      element.textContent = text.substring(0, i + 1);
+      element.appendChild(cursor);
+      await sleep(80);
+    }
+  }
+  
+  async function backspaceText(text: string, element: HTMLElement) {
+    // Remove characters with backspace effect (slower for better performance)
+    for (let i = text.length; i >= 0; i--) {
+      element.textContent = text.substring(0, i);
+      const cursor = ensureCursor(element);
+      element.appendChild(cursor);
+      await sleep(80);
+    }
+    
+    // Clear cursor before next interest
+    element.textContent = '';
+  }
+  
+  async function animateInterests() {
+    while (true) {
+      currentIndex = (currentIndex + 1) % interests.length;
+      const currentInterest = interests[currentIndex];
+      
+      await typeText(currentInterest, interestText);
+      await sleep(800); // Pause after fully typed
+      await backspaceText(currentInterest, interestText);
+      await sleep(300); // Brief pause before next
+    }
+  }
+  
+  // Start animation after page load
+  setTimeout(() => {
+    animateInterests();
+  }, 1000);
+</script>
+
+<style>
+  #interest-text {
+    display: inline-block;
+    min-width: 280px; /* Increased for 'computer architecture' */
+    text-align: left;
+  }
+</style>
+
 </Layout>

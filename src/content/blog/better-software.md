@@ -1,14 +1,14 @@
 ---
-title: 'Next Blog Post'
-pubDate: 2025-12-20
-description: 'This is the second post of my new blog.'
+title: 'Better Software, Faster'
+pubDate: 2025-12-22
+description: 'My goals for all software I write.'
 author: 'Ibrahim Musaddequr Rahman'
-tags: ['performance']
+tags: ['meta']
 ---
 
 # Better Software, Faster
 
-I have recently started a [new blog](/hello-world), as a place to showcase and store various projects of mine. As such, I am starting with my goals for all software I write.
+I have recently started a [new blog](/blog/hello-world), as a place to showcase and store various projects of mine. As such, I am starting with my goals for all software I write.
 
 ## Portability
 

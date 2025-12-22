@@ -1,0 +1,44 @@
+---
+// RecentPosts.astro - Component to display recent blog posts
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
+  .slice(0, 3);
+---
+
+<div class="space-y-4">
+  <h2 class="text-lg font-light tracking-tight text-foreground">Recent Blog Posts</h2>
+  
+  <div class="space-y-3">
+    {recentPosts.length > 0 ? (
+      recentPosts.map((post) => (
+        <div class="space-y-1">
+          <a href={`/blog/${post.slug}`} 
+             class="text-sm font-medium text-foreground hover:text-primary transition-colors">
+            {post.data.title}
+          </a>
+          <p class="text-xs text-muted-foreground">
+            {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric'
+            })}
+          </p>
+        </div>
+      ))
+    ) : (
+      <p class="text-sm text-muted-foreground">No blog posts available</p>
+    )}
+  </div>
+  
+  {recentPosts.length > 0 && (
+    <div class="pt-2">
+      <a href="/blog" 
+         class="text-xs text-primary hover:text-primary/80 transition-colors">
+        View all posts →
+      </a>
+    </div>
+  )}
+</div>
