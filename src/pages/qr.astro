@@ -4,11 +4,21 @@ import Header from '../components/Header.astro';
 ---
 
 <Layout title="QR Code Generator | iamr">
-  <Header />
+  <!-- <Header /> -->
   
   <main class="min-h-screen bg-background flex items-center justify-center">
     <section class="container px-4 py-8">
       <div class="max-w-md mx-auto space-y-6">
+        <!-- Hero Section -->
+        <div class="text-center space-y-4">
+          <h1 class="text-2xl md:text-3xl lg:text-4xl font-light tracking-tight text-foreground font-serif animate-fade-in">
+            QR Code Generator
+          </h1>
+          <p class="text-lg md:text-xl text-muted-foreground font-light animate-slide-up-delayed">
+            Bespoke QR code implementation
+          </p>
+        </div>
+
         <!-- Input Section -->
         <div class="text-center space-y-3">
           <input 

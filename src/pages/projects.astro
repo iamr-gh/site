@@ -28,7 +28,7 @@ const projects = [
     tech: ['JavaScript', 'Web', 'Hackathon'],
     url: 'https://github.com/iamr-gh/MHACKS-14-fastrfood',
     gradient: 'from-yellow-900 via-amber-900 to-orange-900',
-    size: 'wide'
+    size: 'standard'
   },
   {
     id: 'comptime-nn',
@@ -149,15 +149,10 @@ const projects = [
         grid-auto-rows: 180px;
       }
       
-      /* Tablet layout */
+      /* Tablet layout - optimized for 2-column grid */
       .project-card--featured {
         grid-column: span 2;
         grid-row: span 2;
-      }
-      
-      .project-card--wide {
-        grid-column: span 2;
-        grid-row: span 1;
       }
       
       .project-card--tall {
@@ -165,7 +160,11 @@ const projects = [
         grid-row: span 2;
       }
       
-      .project-card--standard,
+      .project-card--standard {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+      
       .project-card--small {
         grid-column: span 1;
         grid-row: span 1;
@@ -174,19 +173,14 @@ const projects = [
 
     @media (min-width: 1024px) {
       .mosaic-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: 200px;
       }
       
-      /* Desktop layout with interesting mosaic */
+      /* Desktop layout - optimized for 3-column grid */
       .project-card--featured {
         grid-column: span 2;
         grid-row: span 2;
-      }
-      
-      .project-card--wide {
-        grid-column: span 3;
-        grid-row: span 1;
       }
       
       .project-card--tall {
@@ -207,7 +201,7 @@ const projects = [
 
     @media (min-width: 1280px) {
       .mosaic-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: 220px;
       }
     }
@@ -228,7 +222,7 @@ const projects = [
       transform: translateY(-4px) scale(1.02);
     }
 
-    /* Size-specific styling */
+    /* Size-specific styling with improved padding */
     .project-card--featured {
       border-radius: 1rem;
       box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.15);
@@ -237,6 +231,10 @@ const projects = [
     .project-card--featured:hover {
       box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.3);
       transform: translateY(-6px) scale(1.03);
+    }
+    
+    .project-card--featured .relative {
+      padding: 2rem;
     }
     
     .project-card--featured h3 {
@@ -259,24 +257,11 @@ const projects = [
       box-shadow: 8px 8px 32px -4px rgba(0, 0, 0, 0.2);
     }
     
-    .project-card--wide {
-      position: relative;
-    }
-    
-    .project-card--wide:hover {
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.25);
-    }
-    
-    .project-card--wide .relative {
+    .project-card--tall .relative {
+      padding: 1.5rem;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
-    }
-    
-    .project-card--wide .relative > div:first-child {
-      flex: 1;
-      margin-right: 2rem;
     }
     
     .project-card--standard {
@@ -286,6 +271,10 @@ const projects = [
     .project-card--standard:hover {
       transform: translateY(-4px) scale(1.02);
       box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.22);
+    }
+    
+    .project-card--standard .relative {
+      padding: 1.75rem;
     }
     
     .project-card--small {
@@ -299,7 +288,7 @@ const projects = [
     }
     
     .project-card--small .relative {
-      padding: 1rem;
+      padding: 1.25rem;
     }
     
     .project-card--small .relative h3 {
@@ -309,6 +298,7 @@ const projects = [
     
     .project-card--small .relative p {
       font-size: 0.75rem;
+      margin-bottom: 0.75rem;
     }
     
     .project-card--small .tech-badges span {
@@ -329,12 +319,48 @@ const projects = [
         min-height: 180px;
       }
       
+      .project-card .relative {
+        padding: 1.25rem !important;
+      }
+      
       .project-card h3 {
         font-size: 1rem !important;
+        margin-bottom: 0.75rem !important;
       }
       
       .project-card p {
         font-size: 0.875rem !important;
+        line-height: 1.4 !important;
+      }
+      
+      .project-card--featured .relative {
+        padding: 1.5rem !important;
+      }
+      
+      .project-card--featured h3 {
+        font-size: 1.25rem !important;
+      }
+      
+      .project-card--featured p {
+        font-size: 0.9rem !important;
+      }
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+      .project-card--tall .relative {
+        padding: 1.25rem;
+      }
+      
+      .project-card--standard .relative {
+        padding: 1.5rem;
+      }
+      
+      .project-card--small .relative {
+        padding: 1.125rem;
+      }
+      
+      .project-card--featured .relative {
+        padding: 1.75rem;
       }
     }
   </style>
