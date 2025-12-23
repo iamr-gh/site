@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -87,4 +90,4 @@ jobs:
         run: |
           echo "🚀 Deployment completed successfully"
           echo "📊 Deployment URL: ${{ steps.deployment.outputs.page_url }}"
-          echo "🔗 The site should be available at: https://iamr-gh.github.io/site/"
+          echo "🔗 The site should be available at: https://iamr.site/"
