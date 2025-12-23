@@ -6,6 +6,9 @@ import rehypePrettyCode from 'rehype-pretty-code';
 // https://astro.build/config
 export default defineConfig({
   site: "https://iamr-gh.github.io",
+  base: "/site",
+  output: 'static',
+  trailingSlash: 'always',
   integrations: [react(), tailwind({
     applyBaseStyles: false,
   })],
@@ -21,5 +24,10 @@ export default defineConfig({
         },
       ],
     ],
+  },
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
   },
 });

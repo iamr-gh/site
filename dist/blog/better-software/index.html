@@ -1,27 +1,28 @@
-<!DOCTYPE html><html lang="en" class="dark"> <head><meta charset="UTF-8"><meta name="description" content="Ibrahim Musaddequr Rahman - Software Developer specializing in programming languages, compilers, and machine learning"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><title>Better Software, Faster | iamr</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/_slug_.B7H_Ce3C.css"></head> <body class="font-sans font-noto-sans">  <header class="p-4 border-b"> <nav class="container flex justify-between items-center"> <a href="/" class="text-xl font-light tracking-wide">iamr</a> <ul class="flex gap-4 font-light"> <li><a href="/blog" class="hover:underline">Blog</a></li> <li><a href="/projects" class="hover:underline">Projects</a></li> </ul> </nav> </header>  <div class="reading-progress" id="reading-progress"></div> <main class="container py-8 max-w-4xl mx-auto"> <!-- Table of Contents -->  <!-- Article Content for shorter posts --> <article class="prose-technical dark:prose-invert"> <h1 id="better-software-faster">Better Software, Faster</h1>
-<p>I have recently started a <a href="/blog/hello-world">new blog</a>, as a place to showcase and store various projects of mine. As such, I am starting with my goals for all software I write.</p>
-<h2 id="portability">Portability</h2>
-<h2 id="performance">Performance</h2>
-<p>Modern compilers and hardware are very fast. If a piece of software has noticeable lag, there should be a good justification for why.</p>
-<p>For the vast majority of websites, content should load instantly.</p>
-<p>Things that should be fast(instantaneous) and responsive:</p>
-<ul>
-<li>website content</li>
-<li>cli tools</li>
-</ul>
-<p>Things that can be slow:</p>
-<ul>
-<li>Machine learning tasks</li>
-<li>Intensive live graphics</li>
-<li>Complex tasks</li>
-</ul>
-<h2 id="ai-usage">AI Usage</h2>
-<p>My standard for all AI usage is it should not be noticable.
-If AI is used on a project, it should be up to basic humans standards.
-This is most notable in writing, but applies to code as well.</p> </article> <!-- Citations Section -->  <!-- Footer with metadata --> <footer class="mt-12 pt-8 border-t"> <div class="space-y-4"> <!-- Tags --> <div class="flex gap-2 flex-wrap"> <span class="inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-lg text-xs font-medium">
+<!DOCTYPE html><html lang="en" class="dark"> <head><meta charset="UTF-8"><meta name="description" content="Ibrahim Musaddequr Rahman - Software Developer specializing in programming languages, compilers, and machine learning"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.16.6"><title>Better Software, Faster | iamr</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Noto+Serif:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><link rel="stylesheet" href="/site/_astro/_slug_.CUIUwtSb.css"></head> <body class="font-sans font-noto-sans">  <header class="p-4 border-b"> <nav class="container flex justify-between items-center"> <a href="/" class="text-xl font-light tracking-wide">iamr</a> <ul class="flex gap-4 font-light"> <li><a href="/blog" class="hover:underline">Blog</a></li> <li><a href="/projects" class="hover:underline">Projects</a></li> </ul> </nav> </header>  <div class="reading-progress" id="reading-progress"></div> <main class="container py-8 max-w-4xl mx-auto"> <!-- Table of Contents -->  <!-- Article Content for shorter posts --> <article class="prose-technical dark:prose-invert"> <!--I once had something more profound for this, but I don't recall anymore-->
+<!-- and some point, should have some piece about tools-->
+<h1 id="better-software-faster">Better Software, Faster</h1>
+<p>I’ve created a <a href="/blog/why">personal site</a> to showcase and document my projects. As I do so, these are some guiding principles for how I write software going forward.</p>
+<h2 id="properties-of-software">Properties of Software</h2>
+<h3 id="simplicity-and-organization">Simplicity and Organization</h3>
+<p>Less code is better, but not at the expense of clarity. Brevity matters, but simplicity comes first. When a cleaner solution exists, use it.</p>
+<p>Code should be descriptive and organized across reasonably-sized, well-named files. Avoid both excessive fragmentation and monolithic files. If forced to choose, prefer the latter. Both practices proactively reduce technical debt as projects scale.</p>
+<h3 id="performance">Performance</h3>
+<p>Modern compilers and hardware are extraordinarily capable. Noticeable lag demands justification.</p>
+<p>For most websites and CLI tools, content should load instantly. Performance isn’t about specific language choices; it’s about refusing to accept unnecessary slowness. Computational heavy lifting (machine learning, graphics rendering) earns a pass, but everything else should be as responsive as possible.</p>
+<h3 id="portability">Portability</h3>
+<p>Cross-platform software is ideal. The web is the most universal platform, but supporting multiple operating systems suffices. This starts with choosing cross-platform toolchains from day one. On this site, I will deploy tools targeting WebAssembly or JavaScript.</p>
+<p>Non-cross-platform software needs clear toolchain justification. I don’t do mobile or native development, so these restrictions rarely concern me.</p>
+<h3 id="ai-usage">AI Usage</h3>
+<p>AI assistance should be invisible. When used, output must meet human quality standards—this applies to writing and code equally.</p>
+<p>AI accelerates work; it doesn’t excuse laziness. The standard should be <strong>AI-generated, human-verified</strong> for any tool in this space.</p>
+<h2 id="properties-of-development">Properties of Development</h2>
+<h3 id="rapid-initial-prototyping">Rapid Initial Prototyping</h3>
+<p>Complex projects need achievable checkpoints. Reaching the first checkpoint quickly is critical—it prevents wasted effort and surfaces hard problems early.</p>
+<h3 id="incremental-debugging">Incremental Debugging</h3>
+<p>When progress stalls, decompose the blocker into manageable pieces. AI helps break through obstacles with fresh perspective. Projects demanding intense mental engagement are vulnerable to motivation loss and abandonment-consistent, incremental progress is the antidote.</p> </article> <!-- Citations Section -->  <!-- Footer with metadata --> <footer class="mt-12 pt-8 border-t"> <div class="space-y-4"> <!-- Tags --> <div class="flex gap-2 flex-wrap"> <span class="inline-flex items-center px-3 py-1 bg-accent text-accent-foreground rounded-lg text-xs font-medium">
 #meta </span> </div> <!-- Author/date metadata --> <div class="text-sm text-muted-foreground"> <p>By Ibrahim Musaddequr Rahman on 12/21/2025</p> </div> </div> </footer> <!-- Navigation --> <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t"> <!-- Previous Post (left column) --> <div class="text-left"> <a href="/blog/why" class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors max-w-xs"> <span class="mr-2">←</span> <div class="truncate"> <div class="text-xs opacity-75">Previous</div> <div class="truncate">My Personal Site</div> </div> </a> </div> <!-- Center column --> <div class="text-center">  <!-- <a  -->
           <!--   href="/blog"  -->
           <!--   class="text-sm text-muted-foreground hover:text-foreground transition-colors" -->
           <!-- > -->
           <!--   Back to Blog -->
-          <!-- </a> --> </div> <!-- Next Post (right column) --> <div class="text-right">  </div> </div> </main>  </body></html> <script type="module">const e=document.getElementById("reading-progress");e&&window.addEventListener("scroll",()=>{const t=window.pageYOffset||document.documentElement.scrollTop,o=document.documentElement.scrollHeight-document.documentElement.clientHeight,n=t/o*100;e.style.width=n+"%"});</script>
+          <!-- </a> --> </div> <!-- Next Post (right column) --> <div class="text-right">  </div> </div> </main>  </body></html> <script type="module" src="/site/_astro/_slug_.astro_astro_type_script_index_0_lang.gLeuBTf_.js"></script>
