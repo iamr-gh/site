@@ -9,7 +9,7 @@ const projects = [
     description: 'Real-time strategy game built with Unity',
     tech: ['C#', 'Unity', 'Game Dev'],
     url: 'https://github.com/iamr-gh/Hand-of-Light-RTS',
-    gradient: 'from-orange-900 via-red-900 to-pink-900',
+    gradient: 'from-emerald-400 via-cyan-500 to-blue-600',
     size: 'featured'
   },
   {
@@ -18,7 +18,7 @@ const projects = [
     description: 'Research analyzing AI resistance in academic assignments',
     tech: ['Python', 'AI Research', 'Education'],
     url: 'https://github.com/iamr-gh/essay-gptability',
-    gradient: 'from-violet-900 via-purple-900 to-fuchsia-900',
+    gradient: 'from-purple-400 via-pink-500 to-red-500',
     size: 'tall'
   },
   {
@@ -27,8 +27,26 @@ const projects = [
     description: 'Crowdsourced dining hall wait times',
     tech: ['JavaScript', 'Web', 'Hackathon'],
     url: 'https://github.com/iamr-gh/MHACKS-14-fastrfood',
-    gradient: 'from-yellow-900 via-amber-900 to-orange-900',
+    gradient: 'from-yellow-300 via-orange-400 to-red-500',
     size: 'standard'
+  },
+  {
+    id: 'qr',
+    title: 'qr',
+    description: 'Bespoke QR code implementation',
+    tech: ['JavaScript', 'Algorithms'],
+    url: '/qr',
+    gradient: 'from-slate-300 via-gray-400 to-slate-600',
+    size: 'standard'
+    },
+  {
+    id: 'site',
+    title: 'site',
+    description: 'Personal portfolio website built with Astro',
+    tech: ['TypeScript', 'Astro', 'Tailwind'],
+    url: 'https://github.com/iamr-gh/site',
+    gradient: 'from-indigo-300 via-blue-400 to-cyan-500',
+    size: 'small'
   },
   {
     id: 'comptime-nn',
@@ -36,36 +54,9 @@ const projects = [
     description: 'Compile-time gradient computation for neural networks',
     tech: ['Zig', 'ML', 'Compilers'],
     url: 'https://github.com/iamr-gh/comptime-nn',
-    gradient: 'from-purple-900 via-blue-900 to-indigo-900',
-    size: 'standard'
-  },
-  {
-    id: 'rts-engine',
-    title: 'rts-engine',
-    description: 'Tiny real-time strategy game engine using raylib',
-    tech: ['Zig', 'Game Dev', 'Graphics'],
-    url: 'https://github.com/iamr-gh/rts-engine',
-    gradient: 'from-green-900 via-emerald-900 to-teal-900',
-    size: 'standard'
-  },
-  {
-    id: 'site',
-    title: 'site',
-    description: 'Personal portfolio website built with Astro',
-    tech: ['TypeScript', 'Astro', 'Tailwind'],
-    url: 'https://github.com/iamr-gh/site',
-    gradient: 'from-blue-900 via-indigo-900 to-purple-900',
+    gradient: 'from-violet-400 via-indigo-500 to-blue-600',
     size: 'small'
   },
-  {
-    id: 'qr',
-    title: 'qr',
-    description: 'Bespoke QR code implementation',
-    tech: ['JavaScript', 'Algorithms'],
-    url: 'https://github.com/iamr-gh/qr',
-    gradient: 'from-gray-900 via-slate-900 to-zinc-900',
-    size: 'small'
-  }
 ];
 ---
 
@@ -76,7 +67,7 @@ const projects = [
       <div class="text-center space-y-4">
         <h1 class="text-3xl md:text-4xl font-light tracking-tight">Projects</h1>
         <p class="text-sm text-muted-foreground max-w-xl mx-auto">
-          Selected work across systems programming, machine learning, and web development
+            Selected work in various disciplines, such as research, game development, and compilers.
         </p>
       </div>
 
@@ -146,13 +137,14 @@ const projects = [
     @media (min-width: 640px) {
       .mosaic-grid {
         grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 180px;
+        grid-auto-rows: 200px;
+        gap: 1.75rem;
       }
       
       /* Tablet layout - optimized for 2-column grid */
       .project-card--featured {
         grid-column: span 2;
-        grid-row: span 2;
+        grid-row: span 1;
       }
       
       .project-card--tall {
@@ -180,7 +172,7 @@ const projects = [
       /* Desktop layout - optimized for 3-column grid */
       .project-card--featured {
         grid-column: span 2;
-        grid-row: span 2;
+        grid-row: span 1;
       }
       
       .project-card--tall {
@@ -219,7 +211,7 @@ const projects = [
     .project-card:hover {
       box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.25);
       z-index: 10;
-      transform: translateY(-4px) scale(1.02);
+      transform: translateY(-4px) scale(1.01);
     }
 
     /* Size-specific styling with improved padding */
@@ -230,22 +222,14 @@ const projects = [
     
     .project-card--featured:hover {
       box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.3);
-      transform: translateY(-6px) scale(1.03);
+      transform: translateY(-6px) scale(1.02);
     }
     
     .project-card--featured .relative {
       padding: 2rem;
     }
     
-    .project-card--featured h3 {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-    
-    .project-card--featured p {
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+
     
     .project-card--tall {
       position: relative;
@@ -253,7 +237,7 @@ const projects = [
     }
     
     .project-card--tall:hover {
-      transform: translateY(-4px) translateX(-2px) scale(1.02);
+      transform: translateY(-4px) translateX(-2px) scale(1.01);
       box-shadow: 8px 8px 32px -4px rgba(0, 0, 0, 0.2);
     }
     
@@ -269,7 +253,7 @@ const projects = [
     }
     
     .project-card--standard:hover {
-      transform: translateY(-4px) scale(1.02);
+      transform: translateY(-4px) scale(1.01);
       box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.22);
     }
     
@@ -283,7 +267,7 @@ const projects = [
     }
     
     .project-card--small:hover {
-      transform: translateY(-3px) scale(1.05);
+      transform: translateY(-3px) scale(1.01);
       box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.18);
     }
     
@@ -291,20 +275,7 @@ const projects = [
       padding: 1.25rem;
     }
     
-    .project-card--small .relative h3 {
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .project-card--small .relative p {
-      font-size: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
-    
-    .project-card--small .tech-badges span {
-      font-size: 0.625rem;
-      padding: 0.25rem 0.5rem;
-    }
+
 
     .line-clamp-3 {
       display: -webkit-box;
@@ -322,28 +293,6 @@ const projects = [
       .project-card .relative {
         padding: 1.25rem !important;
       }
-      
-      .project-card h3 {
-        font-size: 1rem !important;
-        margin-bottom: 0.75rem !important;
-      }
-      
-      .project-card p {
-        font-size: 0.875rem !important;
-        line-height: 1.4 !important;
-      }
-      
-      .project-card--featured .relative {
-        padding: 1.5rem !important;
-      }
-      
-      .project-card--featured h3 {
-        font-size: 1.25rem !important;
-      }
-      
-      .project-card--featured p {
-        font-size: 0.9rem !important;
-      }
     }
 
     @media (min-width: 640px) and (max-width: 1023px) {
@@ -356,7 +305,7 @@ const projects = [
       }
       
       .project-card--small .relative {
-        padding: 1.125rem;
+        padding: 1.5rem;
       }
       
       .project-card--featured .relative {
