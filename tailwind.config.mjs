@@ -12,7 +12,9 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Noto Sans', 'system-ui', 'sans-serif'],
-        serif: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Noto Serif', 'Georgia', 'serif'],
+        reading: ['Noto Serif', 'Inter', 'Georgia', 'serif'],
+        display: ['Inter', 'Noto Sans', 'system-ui', 'sans-serif'],
       },
     },
     container: {

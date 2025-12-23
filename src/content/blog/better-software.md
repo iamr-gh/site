@@ -6,64 +6,44 @@ author: 'Ibrahim Musaddequr Rahman'
 tags: ['meta']
 ---
 
+<!--I once had something more profound for this, but I don't recall anymore-->
+<!-- and some point, should have some piece about tools-->
 # Better Software, Faster
 
-I have recently started a [new blog](/blog/hello-world), as a place to showcase and store various projects of mine. As such, I am starting with my goals for all software I write.
+I've created a [personal site](/blog/why) to showcase and document my projects. As I do so, these are some guiding principles for how I write software going forward. 
 
-## Portability
+## Properties of Software
 
-## Performance
-Modern compilers and hardware are very fast. If anything does not load instantly, there should be a good justification for why.
+### Simplicity and Organization
 
-Things that should be fast(instantaneous) and responsive:
-- website content
-- cli tools
+Less code is better, but not at the expense of clarity. Brevity matters, but simplicity comes first. When a cleaner solution exists, use it.
 
-Things that can be slow:
-- Machine learning tasks
-- Intensive live graphics
-- Complex tasks
+Code should be descriptive and organized across reasonably-sized, well-named files. Avoid both excessive fragmentation and monolithic files. If forced to choose, prefer the latter. Both practices proactively reduce technical debt as projects scale.
 
-## AI Usage
-My standard for all AI usage is it should not be noticable. 
-If AI is used on a project, it should be up to basic humans standards. 
-This is most notable in writing, but applies to code as well.
+### Performance
 
-## Example Code
+Modern compilers and hardware are extraordinarily capable. Noticeable lag demands justification.
 
-Here's some sample code to demonstrate syntax highlighting:
+For most websites and CLI tools, content should load instantly. Performance isn't about specific language choices; it's about refusing to accept unnecessary slowness. Computational heavy lifting (machine learning, graphics rendering) earns a pass, but everything else should be as responsive as possible.
 
-```javascript
-// Function to calculate reading time
-function calculateReadingTime(text) {
-  const wordsPerMinute = 200;
-  const words = text.split(/\s+/).filter(word => word.length > 0).length;
-  const minutes = Math.ceil(words / wordsPerMinute);
-  return minutes;
-}
+### Portability
 
-// Usage example
-const sampleText = "This is a sample text for reading time calculation.";
-const readingTime = calculateReadingTime(sampleText);
-console.log(`Reading time: ${readingTime} minutes`);
-```
+Cross-platform software is ideal. The web is the most universal platform, but supporting multiple operating systems suffices. This starts with choosing cross-platform toolchains from day one. On this site, I will deploy tools targeting WebAssembly or JavaScript.
 
-```typescript
-interface BlogPost {
-  title: string;
-  content: string;
-  author: string;
-  publishDate: Date;
-  tags: string[];
-}
+Non-cross-platform software needs clear toolchain justification. I don't do mobile or native development, so these restrictions rarely concern me.
 
-const posts: BlogPost[] = [
-  {
-    title: "Example Post",
-    content: "Sample content here...",
-    author: "Developer",
-    publishDate: new Date(),
-    tags: ["typescript", "programming"]
-  }
-];
-```
+### AI Usage
+
+AI assistance should be invisible. When used, output must meet human quality standards—this applies to writing and code equally.
+
+AI accelerates work; it doesn't excuse laziness. The standard should be **AI-generated, human-verified** for any tool in this space.
+
+## Properties of Development
+
+### Rapid Initial Prototyping
+
+Complex projects need achievable checkpoints. Reaching the first checkpoint quickly is critical—it prevents wasted effort and surfaces hard problems early.
+
+### Incremental Debugging
+
+When progress stalls, decompose the blocker into manageable pieces. AI helps break through obstacles with fresh perspective. Projects demanding intense mental engagement are vulnerable to motivation loss and abandonment-consistent, incremental progress is the antidote.
