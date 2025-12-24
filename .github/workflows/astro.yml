@@ -12,7 +12,10 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
+
+env:
+  BUILD_PATH: "."
 
 jobs:
   build:
@@ -73,7 +76,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: ${{ env.BUILD_PATH }}/dist
 
   deploy:
     needs: build

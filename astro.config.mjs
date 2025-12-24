@@ -5,7 +5,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://iamr.site",
+  site: "https://www.iamr.site",
   output: 'static',
   trailingSlash: 'always',
   integrations: [react(), tailwind({
