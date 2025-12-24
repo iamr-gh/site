@@ -23,13 +23,13 @@ const allTags = [...new Set(sortedPosts.flatMap((post: any) => post.data.tags ||
     <SearchBar />
     
     <!-- Tag Filter Section -->
-    <div class="mb-8">
-      <div class="flex items-center gap-4 flex-wrap">
-        <span class="text-sm font-medium text-muted-foreground">Filter:</span>
+    <div class="mb-6 sm:mb-8">
+      <div class="flex items-start sm:items-center gap-2 sm:gap-4 flex-col sm:flex-row">
+        <span class="text-sm font-medium text-muted-foreground whitespace-nowrap">Filter:</span>
         <div class="flex gap-2 flex-wrap" id="tag-filters">
           <!-- All button -->
           <button 
-            class="tag-filter-btn active inline-flex items-center px-3 py-1 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors"
+            class="tag-filter-btn active inline-flex items-center px-2.5 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors min-h-[32px]"
             data-tag=""
           >
             All
@@ -37,7 +37,7 @@ const allTags = [...new Set(sortedPosts.flatMap((post: any) => post.data.tags ||
           <!-- Dynamic tags -->
           {allTags.map(tag => (
             <button 
-              class="tag-filter-btn inline-flex items-center px-3 py-1 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors"
+              class="tag-filter-btn inline-flex items-center px-2.5 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors min-h-[32px]"
               data-tag={tag}
             >
               {tag}
@@ -46,7 +46,7 @@ const allTags = [...new Set(sortedPosts.flatMap((post: any) => post.data.tags ||
           <!-- Clear button -->
           <button 
             id="clear-tags"
-            class="inline-flex items-center px-3 py-1 bg-muted text-muted-foreground rounded-lg text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+            class="inline-flex items-center px-2.5 py-1.5 bg-muted text-muted-foreground rounded-lg text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors min-h-[32px]"
           >
             Clear
           </button>

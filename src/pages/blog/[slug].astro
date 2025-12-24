@@ -86,12 +86,12 @@ const references = extractReferences(content.html);
     <!-- Table of Contents -->
     {headings.length > 3 && (
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
-        <div class="lg:col-span-3">
-          <div class="sticky top-8">
+        <div class="lg:col-span-1 order-2 lg:order-1">
+          <div class="lg:sticky lg:top-8">
             <TableOfContents headings={headings} />
           </div>
         </div>
-        <div class="lg:col-span-1">
+        <div class="lg:col-span-3 order-1 lg:order-2">
           <!-- Article Content -->
           <div class="code-block-wrapper">
             <article class="prose-technical dark:prose-invert">
@@ -143,58 +143,44 @@ const references = extractReferences(content.html);
     </footer>
     
     <!-- Navigation -->
-    <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t">
-      <!-- Previous Post (left column) -->
-      <div class="text-left">
-        {previousEntry && (
-          <a 
-            href={`/blog/${previousEntry.slug}`}
-            class="inline-flex items-center px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors max-w-xs"
-          >
-            <span class="mr-2">←</span>
-            <div class="truncate">
-              <div class="text-xs opacity-75">Previous</div>
-              <div class="truncate">{previousEntry.data.title}</div>
-            </div>
-          </a>
-        )}
-      </div>
+    <div class="flex flex-col sm:flex-row gap-4 mt-12 pt-8 border-t">
+      <!-- Previous Post -->
+      {previousEntry && (
+        <a 
+          href={`/blog/${previousEntry.slug}`}
+          class="flex items-center px-4 py-3 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors"
+        >
+          <span class="mr-2">←</span>
+          <div class="text-left">
+            <div class="text-xs opacity-75">Previous</div>
+            <div class="truncate max-w-[200px] sm:max-w-none">{previousEntry.data.title}</div>
+          </div>
+        </a>
+      )}
       
-      <!-- Center column -->
-      <div class="text-center">
-        {(!previousEntry && !nextEntry) && (
-          <a 
-            href="/blog" 
-            class="inline-flex items-center px-4 py-2 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-colors"
-          >
-            All Posts
-          </a>
-        )}
-        {(previousEntry || nextEntry) && (
-          <!-- <a  -->
-          <!--   href="/blog"  -->
-          <!--   class="text-sm text-muted-foreground hover:text-foreground transition-colors" -->
-          <!-- > -->
-          <!--   Back to Blog -->
-          <!-- </a> -->
-        )}
-      </div>
+      <!-- Center: All Posts -->
+      <!-- <div class="flex-1 flex items-center justify-center"> -->
+      <!--   <a  -->
+      <!--     href="/blog"  -->
+      <!--     class="inline-flex items-center px-4 py-3 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg text-sm font-medium transition-colors" -->
+      <!--   > -->
+      <!--     All Posts -->
+      <!--   </a> -->
+      <!-- </div> -->
       
-      <!-- Next Post (right column) -->
-      <div class="text-right">
-        {nextEntry && (
-          <a 
-            href={`/blog/${nextEntry.slug}`}
-            class="inline-flex items-center justify-end px-4 py-2 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors max-w-xs ml-auto"
-          >
-            <div class="truncate">
-              <div class="text-xs opacity-75">Next</div>
-              <div class="truncate">{nextEntry.data.title}</div>
-            </div>
-            <span class="ml-2">→</span>
-          </a>
-        )}
-      </div>
+      <!-- Next Post -->
+      {nextEntry && (
+        <a 
+          href={`/blog/${nextEntry.slug}`}
+          class="flex items-center justify-end px-4 py-3 bg-accent hover:bg-accent/80 text-accent-foreground rounded-lg text-sm font-medium transition-colors"
+        >
+          <div class="text-right">
+            <div class="text-xs opacity-75">Next</div>
+            <div class="truncate max-w-[200px] sm:max-w-none">{nextEntry.data.title}</div>
+          </div>
+          <span class="ml-2">→</span>
+        </a>
+      )}
     </div>
   </main>
 </Layout>

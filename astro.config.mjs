@@ -7,7 +7,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 export default defineConfig({
   site: "https://iamr.site",
   output: 'static',
-  trailingSlash: 'always',
+  // trailingSlash: 'always',
   integrations: [react(), tailwind({
     applyBaseStyles: false,
   })],

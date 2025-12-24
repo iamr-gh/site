@@ -12,10 +12,10 @@ import { Github, Linkedin, Mail } from 'lucide-react';
   <!-- Hero Section -->
   <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20">
     <div class="container text-center space-y-6 px-4">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-foreground font-serif animate-fade-in">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light tracking-tight text-foreground font-serif animate-fade-in leading-tight">
         Ibrahim Musaddequr Rahman
       </h1>
-      <p class="text-lg md:text-xl text-muted-foreground font-light animate-slide-up-delayed">
+      <p class="text-base sm:text-lg md:text-xl text-muted-foreground font-light animate-slide-up-delayed">
         curious about <span id="interest-text" class="text-primary">machine learning</span>
       </p>
       
@@ -143,8 +143,16 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 <style>
   #interest-text {
     display: inline-block;
-    min-width: 280px; /* Increased for 'computer architecture' */
+    min-width: 200px; /* Reduced for mobile */
+    max-width: 280px; /* Cap for larger screens */
     text-align: left;
+  }
+
+  @media (max-width: 640px) {
+    #interest-text {
+      min-width: 160px;
+      font-size: 0.9rem;
+    }
   }
 </style>
 
