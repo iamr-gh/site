@@ -23,6 +23,54 @@ import Header from '../components/Header.astro';
           <div class="w-2 h-2 rounded-full bg-warning animate-pulse" id="statusDot"></div>
           <span class="text-sm text-foreground" id="statusText">Loading models...</span>
         </div>
+ 
+        <!-- Input Card -->
+        <div class="bg-card border border-border rounded-lg p-6 shadow-sm">
+          <h2 class="text-lg font-medium text-foreground mb-4">Enter Your Prompt</h2>
+          <textarea 
+            id="promptInput" 
+            placeholder="Enter an essay or creative writing prompt to analyze its GPT-ability..."
+            class="w-full min-h-[150px] bg-muted/50 border border-input rounded-lg p-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200 resize-y"
+          ></textarea>
+          <div class="flex flex-wrap gap-3 mt-4">
+            <button 
+              id="analyzeBtn" 
+              disabled
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-light ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3"
+            >
+              Analyze Prompt
+            </button>
+            <button 
+              id="clearBtn" 
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-light ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground px-6 py-3"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+
+        <!-- Result Card -->
+        <div class="bg-card border border-border rounded-lg p-6 shadow-sm result-container" id="resultContainer">
+          <h2 class="text-lg font-medium text-foreground mb-6">Analysis Result</h2>
+          
+          <div class="text-center py-6">
+            <div class="text-5xl font-bold mb-2" id="scoreValue">--</div>
+            <div class="text-xl font-medium mb-4" id="scoreLabel">--</div>
+            
+            <!-- Score Bar -->
+            <div class="h-3 bg-muted/50 rounded-full overflow-hidden mx-auto mb-2 max-w-md">
+              <div class="h-full rounded-full transition-all duration-500 ease-out w-0" id="scoreBarFill"></div>
+            </div>
+            <div class="flex justify-between text-xs text-muted-foreground max-w-md mx-auto mb-6">
+              <span>0.2 (Human-Distinctive)</span>
+              <span>0.6 (GPT-able)</span>
+            </div>
+            
+            <!-- Interpretation -->
+            <div class="bg-muted/50 rounded-lg p-4 text-left text-sm leading-relaxed text-foreground/90" id="interpretation">
+            </div>
+          </div>
+          </div>
 
         <!-- Sample Prompts Card -->
         <div class="bg-card border border-border rounded-lg p-6 shadow-sm">
@@ -94,54 +142,6 @@ import Header from '../components/Header.astro';
                 You are a Marine in Vietnam, the year is 1967. While out on a patrol...
               </div>
             </button>
-          </div>
-        </div>
-
-        <!-- Input Card -->
-        <div class="bg-card border border-border rounded-lg p-6 shadow-sm">
-          <h2 class="text-lg font-medium text-foreground mb-4">Enter Your Prompt</h2>
-          <textarea 
-            id="promptInput" 
-            placeholder="Enter an essay or creative writing prompt to analyze its GPT-ability..."
-            class="w-full min-h-[150px] bg-muted/50 border border-input rounded-lg p-4 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all duration-200 resize-y"
-          ></textarea>
-          <div class="flex flex-wrap gap-3 mt-4">
-            <button 
-              id="analyzeBtn" 
-              disabled
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-light ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 px-6 py-3"
-            >
-              Analyze Prompt
-            </button>
-            <button 
-              id="clearBtn" 
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-light ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground px-6 py-3"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-
-        <!-- Result Card -->
-        <div class="bg-card border border-border rounded-lg p-6 shadow-sm result-container" id="resultContainer">
-          <h2 class="text-lg font-medium text-foreground mb-6">Analysis Result</h2>
-          
-          <div class="text-center py-6">
-            <div class="text-5xl font-bold mb-2" id="scoreValue">--</div>
-            <div class="text-xl font-medium mb-4" id="scoreLabel">--</div>
-            
-            <!-- Score Bar -->
-            <div class="h-3 bg-muted/50 rounded-full overflow-hidden mx-auto mb-2 max-w-md">
-              <div class="h-full rounded-full transition-all duration-500 ease-out w-0" id="scoreBarFill"></div>
-            </div>
-            <div class="flex justify-between text-xs text-muted-foreground max-w-md mx-auto mb-6">
-              <span>0.2 (Human-Distinctive)</span>
-              <span>0.6 (GPT-able)</span>
-            </div>
-            
-            <!-- Interpretation -->
-            <div class="bg-muted/50 rounded-lg p-4 text-left text-sm leading-relaxed text-foreground/90" id="interpretation">
-            </div>
           </div>
         </div>
 
