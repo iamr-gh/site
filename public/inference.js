@@ -13,9 +13,11 @@
 
 import { pipeline, env } from 'https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.1.2';
 
-// ONNX Runtime Web is loaded via script tag in index.html and available as window.ort
-// This is the recommended approach for browser usage without a bundler
-const ort = window.ort;
+// Global model instances
+let extractor = null;
+let regressorSession = null;
+let isModelLoaded = false;
+let ort = null;
 
 // Configure Transformers.js
 env.allowLocalModels = false;
@@ -24,11 +26,6 @@ env.useBrowserCache = true;
 // Model configuration
 const ENCODER_MODEL = 'Xenova/all-MiniLM-L12-v2';
 const REGRESSOR_PATH = '/models/regressor.onnx';
-
-// Global model instances
-let extractor = null;
-let regressorSession = null;
-let isModelLoaded = false;
 
 // DOM elements
 const loadingOverlay = document.getElementById('loadingOverlay');
@@ -69,18 +66,49 @@ function updateStatus(isReady, text) {
 }
 
 /**
+ * Dynamically load ONNX Runtime Web script
+ */
+function loadOnnxRuntime() {
+    return new Promise((resolve, reject) => {
+        // Check if it's already loaded
+        if (window.ort) {
+            ort = window.ort;
+            resolve(window.ort);
+            return;
+        }
+
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js';
+        script.onload = () => {
+            ort = window.ort;
+            resolve(window.ort);
+        };
+        script.onerror = (error) => {
+            reject(new Error('Failed to load ONNX Runtime Web'));
+        };
+        document.head.appendChild(script);
+    });
+}
+
+/**
  * Load the sentence transformer model and regression head
  */
 async function loadModels() {
     loadingOverlay.classList.add('visible');
-    
+
     try {
+        // Load ONNX Runtime Web first
+        updateProgress(5, 'Loading ONNX Runtime...');
+        updateStatus(false, 'Loading ONNX Runtime...');
+
+        ort = await loadOnnxRuntime();
+
         // Load sentence transformer (with progress tracking)
         updateProgress(10, 'Loading sentence transformer model...');
         updateStatus(false, 'Loading models...');
-        
+
         extractor = await pipeline('feature-extraction', ENCODER_MODEL, {
-            dtype: 'q8',  // Use quantized model for faster loading and inference
+            dtype: 'q8',
             progress_callback: (progress) => {
                 if (progress.status === 'progress') {
                     const pct = Math.round(progress.progress);
@@ -88,35 +116,35 @@ async function loadModels() {
                 }
             }
         });
-        
+
         updateProgress(85, 'Loading regression head...');
-        
+
         // Configure ONNX Runtime for WebAssembly
         ort.env.wasm.numThreads = navigator.hardwareConcurrency || 4;
-        
+
         // Load regression head
         regressorSession = await ort.InferenceSession.create(REGRESSOR_PATH, {
             executionProviders: ['wasm'],
             graphOptimizationLevel: 'all'
         });
-        
+
         updateProgress(100, 'Models loaded!');
         isModelLoaded = true;
-        
+
         // Update UI
         analyzeBtn.disabled = false;
         updateStatus(true, 'Ready - Models loaded');
-        
+
         // Hide loading overlay after a short delay
         setTimeout(() => {
             loadingOverlay.classList.remove('visible');
         }, 500);
-        
+
     } catch (error) {
         console.error('Error loading models:', error);
         updateProgress(0, `Error: ${error.message}`);
         updateStatus(false, 'Error loading models');
-        loadingText.style.color = '#e94560';
+        loadingText.style.color = 'hsl(0, 84.2%, 60.2%)';
     }
 }
 
