@@ -17,7 +17,7 @@ As such, I am actively looking for more terminal-native ai-coding tools and ways
 
 **AI-Generated, Human Verified** is my standard in these situations. The general workflow is I would discuss with a planning agent my vision for the changes, and once it wrote a plan with enough specifity to match my goals for a task, I would allow a building agent to execute that plan and interact with the environment to run tests, etc. After it built a solution, I would do QA and give feedback, reporting errors or further pieces I wanted changed with respect to the overall product.
 
-This plan-execute segmentation was helpful ebcause 
+This plan-execute segmentation was helpful because you can catch errors early before the model wastes tokens or confuses itself. 
 
 <!-- need to work on this-->
 ## Tools Used
@@ -70,3 +70,5 @@ All at once vs micro editing.
 
 This behavior is not unique to coding models, but on tasks that are more complex, there can be an intelligence cutoff where smaller moodels are much less efficient, and generate far more code without solving the problem, compared to the clean principled correct approach to the problem. This is the difference between Opus 4.5 and other models.
 
+## Loss of Familiarity
+A concern with generating large codebases is that once a bug arises the LLM can't solve, it will often be harder for the user to acclimate to a large codebase they didn't write.
