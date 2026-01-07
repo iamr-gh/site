@@ -55,7 +55,7 @@ OpenCode has their own fine tuned model(similar to Cursor's Composer) that was a
 ## Tasks Attempted
 
  <!-- end up linking more of these-->
-### Website
+### Personal Site
 I have been meaning to update my personal site for awhile, making the styling cleaner and providing a respectable starting to point to write blog posts and showcase projects. 
 I built out a static site using astro, and told the agent to use the reference materials of shadcn as a starting point.
 I found GLM 4.7 and OpenCode's model to be more than sufficient for this task, allowing me to quickly build out much of the boilerplate that would've taken be hours to fiddle with by hand. 
@@ -95,7 +95,7 @@ This process was not cheap. Even in an environment with minimal files and well f
 The code produced in this process was well documented, the commit can be viewed [here](https://github.com/iamr-gh/essay-gptability/tree/web_demo_opus/web_demo).
 The results of this effort can be viewed at [iamr.site/gptability](iamr.site/gptability).
 
-<!-- maybe add some images -->
+<!-- Add an image of page -->
 
 ### Bespoke QR Code Generator
 I decided to now test the ability to transfer code over from another code base, as well as work in a less common language.
@@ -104,12 +104,14 @@ I previously wrote a (qr code generator from scratch)[https://github.com/iamr-gh
 The first task for the coding agent was to take the existing webpage and integrate it into my current site, standardizing the styling and linking some navigation.
 This task wasn't particularly difficult, the result is deployed at (iamr.site/qr)[iamr.site/qr].
 
-<!-- and some images -->
+<!-- and an image of page -->
 
 The much harder task I gave Opus 4.5 was the extend the existing nim code. 
 I implemented the most basic version of the qr code specification, which only supports URLs of 17 characters.
 The higher versions of the specification are more complicated, combining extensions to the error correcting algorithm as well as spatial reasoning about different formats.
 This task was admittedly quite difficult, but I was curious if such knowledge was within its training data or if it could look up existing implementations and translate them to another language.
+
+<!-- image of v1 vs v2 qr codes?-->
 
 Opus 4.5 was able to end up with nim code that compiled correctly and output a qr code of the correct size that looked reminiscent of the extended specification. However, these qr codes do not pass the test of an external reader. 
 After prompting the model that it's code did not work, it introspected further, but without a checker integrated into the loop, it was unable to make progress on the problem. 
@@ -117,21 +119,216 @@ This process cost $13.29 to generate no useful results, and I cut it off at this
 For those curious about the attempt, the changes can be found [here](https://github.com/iamr-gh/qr/commit/d1a873bdd7e2a917010d7a4be50833e2c0e154cc).
 
 
-### Game Engine Development
+### Game Development
 With some knowledge of easy and hard tasks for coding agents, I wished to experiment with more medium difficulty tasks to find the exact lines of competence.
 Game development is a space with a lot of space for code to be written, with a rich environment of varying levels of complexity and boiler plate.
 
 I revisited a project where I was writing a small pathing engine for an RTS game using zig and raylib. 
 In my particular interest, this problem boils down to creating responsive multi agent pathing and control in a 2 or 2.5 dimensional environment.
+I'll write up a future blog post about the goals and challenges of this project, but think of this as within the algorithms and performance domain.
 
 <!--boilerplate and default algorithms-->
 
-<!-- custom algorithms and modifications-->
+This project was in early stages when I started consisting of just a rendered grid and mouse selection.
+GLM 4.7 was able to bring this up to interactive single agent pathing in an environment with obstacles.
+This was within the realm of common boilerplate, but still impressive that it output an implementation of A* within zig.
 
-<!-- definitely need to include some assets -->
+<!-- insert a gif of initial single agent pathing-->
+
+The next step of this was where the complexity of the project lies, implementing multiagent pathing while trying to minimize collisions.
+This involves modifying existing algorithms, creating a unique planner for this particular circumstance.
+I again upgraded to Opus 4.5 for this task, and came across a difficulty not previously encountered: explaining the problem and my priorities. 
+Opus did spit out a solution that began to address the problem, but it added layers and complexity and solved additional problems in ways not asked for.
+For this example I'll explain some specific code, particularly the diffs between [Opus's implementation](https://github.com/iamr-gh/rts-engine/compare/1d430cf0b9a6665170709a4ebaacb8df19b0e012...e866330d0e04f09e80068117daf5af8f5b7e87ef)
+and [my own implementation](https://github.com/iamr-gh/rts-engine/compare/1d430cf0b9a6665170709a4ebaacb8df19b0e012...a1c8a0a94688ccb07dbeac3dfdaec8c45db65077)
+afterwards.
+
+The specifics of this task was to 1) allow the selection of multiple agents and then 2) pick a set of goals for them based around the clicked point.
+Because the paths needed to not collide, more than one location needed to be picked around the goal.
+At this point, the task was only to pick the goals, not to force the pathing algorithm to avoid overlapping individual agent paths.
+I went back and forth with the agent for some time in planning to explain this situation, as well as emphasize symplicity as a virtue when picking between multiple approaches.
+To me, the solution to this problem would be a simple BFS around the target point, and then assigning agents arbitrarily to the points.
+
+```zig
+// my solution
+pub fn getGroupGoals(obstacles: *ObstacleGrid, goal: ScreenPos, ...) !std.ArrayList(ScreenPos) {
+    var goals = std.ArrayList(ScreenPos).empty;
+    var taken = std.AutoHashMap(ScreenPos, void).init(allocator);
+
+    var toVisit = queue.Queue(ScreenPos).init(allocator);
+    defer toVisit.deinit();
+
+    try toVisit.enqueue(goal);
+    try taken.put(goal, {});
+
+    // bfs
+    while (goals.items.len < count) {
+        const curr = toVisit.dequeue().?;
+        if (obstacles.obstacles.get(map.screenToGridCoord(curr, gridSize))) |height| {
+            if (height >= 3) {
+                continue;
+            }
+        }
+        try goals.append(allocator, curr);
+        for (crossDiagonalMovement) |move| {
+            const movedPoint: ScreenPos = .{ .x = curr.x + move[0] * gridSize, .y = curr.y + move[1] * gridSize };
+            if (taken.get(movedPoint)) |_| {} else {
+                try taken.put(movedPoint, {});
+                try toVisit.enqueue(movedPoint);
+            }
+        }
+    }
+    return goals;
+}
+```
+
+Opus 4.5 implemented a much more complex algorithm, using a modified BFS with a range, calculating a centroid of the agents, and then placing them within a target region based on their offset from the centroid.
+This algorithm does solve other problems not asked, however it is also 4-5x longer than my intended solution, and introduces far more edge cases and interactions.
+I've added an (abridged) version of the code below just to convey how much more additional complexity this adds. 
+There are also small bugs that went unannotated in the code, such as claiming the traversal was a BFS while using a datastructure that would yield a DFS.
+
+```zig
+// agent solution(some parts omitted)
+fn gatherAvailableCells(
+    targetPos: ScreenPos,
+    count: usize,
+    gridSize: i32,
+    obstacleGrid: *const ObstacleGrid,
+    maxSearchRadius: i32,
+    allocator: std.mem.Allocator,
+) !std.ArrayList(ScreenPos) {
+    var result = std.ArrayList(ScreenPos).empty;
+    errdefer result.deinit(allocator);
+
+    // NOT ACTUALLY A QUEUE(-> DFS)
+    var queue = std.ArrayList(ScreenPos).empty;
+    defer queue.deinit(allocator);
+
+    // <same bfs logic>
+}
+
+pub fn findGroupGoals(
+    targetPos: ScreenPos,
+    agents: []const Agent,
+    gridSize: i32,
+    obstacleGrid: *const ObstacleGrid,
+    allocator: std.mem.Allocator,
+    maxSearchRadius: i32,
+) !std.ArrayList(ScreenPos) {
+    var result = std.ArrayList(ScreenPos).empty;
+    errdefer result.deinit(allocator);
+    // Count selected agents and calculate centroid
+    var selectedCount: usize = 0;
+    var centroidX: i64 = 0;
+    var centroidY: i64 = 0;
+    for (agents) |agent| {
+        if (agent.selected) {
+            selectedCount += 1;
+            centroidX += agent.pos.x;
+            centroidY += agent.pos.y;
+        }
+    }
+    if (selectedCount == 0) {
+        return result;
+    }
+    centroidX = @divFloor(centroidX, @as(i64, @intCast(selectedCount)));
+    centroidY = @divFloor(centroidY, @as(i64, @intCast(selectedCount)));
+    // Snap target to grid center
+    const targetSquare = grid.getSquareInGrid(gridSize, targetPos);
+    const targetCenter = grid.getSquareCenter(gridSize, targetSquare);
+    // Gather available cells near target (more than needed for flexibility)
+    var availableCells = try gatherAvailableCells(
+        targetCenter,
+        selectedCount * 4,
+        gridSize,
+        obstacleGrid,
+        maxSearchRadius,
+        allocator,
+    );
+    defer availableCells.deinit(allocator);
+    // Track which cells have been assigned
+    var assignedCells = std.AutoHashMap(ScreenPos, void).init(allocator);
+    defer assignedCells.deinit();
+    // For each selected agent, find the best matching cell
+    for (agents) |agent| {
+        if (!agent.selected) continue;
+        // Compute agent's direction from centroid
+        const agentDx = agent.pos.x - @as(i32, @intCast(centroidX));
+        const agentDy = agent.pos.y - @as(i32, @intCast(centroidY));
+        // Check if agent is at centroid (or very close)
+        const atCentroid = (@abs(agentDx) < gridSize and @abs(agentDy) < gridSize);
+        const agentAngle = computeAngle(agentDx, agentDy);
+        // Find best matching cell
+        var bestCell: ?ScreenPos = null;
+        var bestScore: f32 = std.math.inf(f32);
+        for (availableCells.items) |cell| {
+            if (assignedCells.contains(cell)) continue;
+            // Compute cell's direction from target
+            const cellDx = cell.x - targetCenter.x;
+            const cellDy = cell.y - targetCenter.y;
+            const cellAtTarget = (cellDx == 0 and cellDy == 0);
+            // Score = angular difference + small distance penalty for tie-breaking
+            var score: f32 = 0;
+            if (atCentroid) {
+                // Agent at centroid prefers cells closest to target
+                const dist = @as(f32, @floatFromInt(@abs(cellDx) + @abs(cellDy)));
+                score = dist;
+            } else if (cellAtTarget) {
+                // Target cell has no angle - give it a moderate score
+                // (center-most agents will claim it due to their low scores)
+                score = std.math.pi;
+            } else {
+                const cellAngle = computeAngle(cellDx, cellDy);
+                const angularDiff = angleDifference(agentAngle, cellAngle);
+                // Distance from target as tie-breaker (normalized)
+                const dist = @as(f32, @floatFromInt(@abs(cellDx) + @abs(cellDy)));
+                const distPenalty = dist / @as(f32, @floatFromInt(gridSize * 100));
+                score = angularDiff + distPenalty;
+            }
+            if (score < bestScore) {
+                bestScore = score;
+                bestCell = cell;
+            }
+        }
+        // Assign cell (or fallback to agent's current position)
+        if (bestCell) |cell| {
+            try assignedCells.put(cell, {});
+            try result.append(allocator, cell);
+        } else {
+            // Fallback: use agent's current position
+            const agentSquare = grid.getSquareInGrid(gridSize, agent.pos);
+            const agentCenter = grid.getSquareCenter(gridSize, agentSquare);
+            try result.append(allocator, agentCenter);
+        }
+    }
+    return result;
+}
+```
+<!-- maybe add a comparison here-->
+
+I think this example highlights the exact challenges of using AI code within this domain.
+The solution does work, and if you didn't look at the code, you might consider it sufficient.
+However, this is the simplest piece of what is going to be a multipart pipeline of pathing, and it has added a large amount of complexity and unknown edge cases, while also being foreign for me to read.
+
+The next change needed was to modify the A* algorithm to prevent the paths generated from colliding with each other, now that each agent was going to separate locations.
+My solution involved a ~30 line modification to compute each agent's path sequentially, and then keep track of what agent occupied a given location at a given time and mark it impassable in the A* search.
+This kind of change involved a small amount of code but a lot of thinking on my part on how to structure it.
+Opus 4.5 attempted a longer change to solve the problem, but was unsuccessful(~$7 lost).
+
+Interestingly, after writing my solution, I used GLM 4.7 to fix a small edge case regardling differing path lengths, and made that change correctly.
+
+While the agents struggled in solving the pathing problems, they were successful elsewhere in the codebase in expanding the terrain generation.
+Originally, the obstacles were placed uniformly randomly in the environment.
+To have a more realistic terrain, I wanted mountain and hill formations of varying heights, easing from high to low.
+In this effort, I was able to get GLM 4.7 to generate a procedural map generator that used perlin noise to create a graduated height map, and then bezier curves to create mountain ranges.
+This is one of the sections of code that I almost exclusively use AI generation for, given that the results don't need to be perfect, and for me to solve the problem would be mostly searching up existing solutions.
+
+This project is still under development, but current progress of all these efforts is shown below.
+Going forward, I am mostly writing this code by hand, but I will use AI to scaffold out certain kinds of architecture and generate configurations and maps like the terrain.
+<!-- gif of final progress-->
+
+
  <!-- ![Alt text](/images/blog/ai-coding/screenshot.png) -->
-
-<!-- add some code -->
 
 
 <!-- broader takeaways-->
