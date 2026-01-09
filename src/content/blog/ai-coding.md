@@ -1,5 +1,5 @@
 ---
-title: 'AI Coding'
+title: 'Experiments in AI Coding'
 pubDate: 2026-01-09
 description: 'Experiments in AI Coding'
 author: 'Ibrahim Musaddequr Rahman'
