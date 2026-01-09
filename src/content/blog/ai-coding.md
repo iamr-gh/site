@@ -67,7 +67,7 @@ These interconnected pieces proved too much for the weaker models to handle. Ope
 
 The intelligence boost of Opus 4.5 was able to complete the problem, and its solution was much simpler than the previous AI attempts. It identified subtleties the other models did not notice, such as that the model used a pretrained embedding, which could be loaded from a separate optimized source for more efficiency. Because I had a paper written on the project, the agent was able to efficiently understand the context of what this model was doing, and able to pull examples and language from the paper, producing a quality interactive tool. Like the weaker models, Opus' page did not work on first attempt. However, after pasting console error messages back to the agent a couple times, it was able to solve the problem where weaker models got stuck in a loop.
 
-This process was not cheap. Even in an environment with minimal files and well-formed context, this generation cost ~$8 of inference. Given my unfamiliarity, this probably would have taken me a couple hours of work, so a reasonable amount of time was saved. I suspect someone familiar with the space could get it done in under half an hour.
+This process was not cheap. Even in an environment with minimal files and well-formed context, this generation cost \~$8 of inference. Given my unfamiliarity, this probably would have taken me a couple hours of work, so a reasonable amount of time was saved. I suspect someone familiar with the space could get it done in under half an hour.
 
 The code produced in this process was well documented by the agent; the commit can be viewed [here](https://github.com/iamr-gh/essay-gptability/tree/web_demo_opus/web_demo). The results of this effort can be viewed at [iamr.site/gptability](iamr.site/gptability).
 
@@ -272,7 +272,7 @@ pub fn findGroupGoals(
 
 This example highlights the particular challenges of using AI code within this domain. The solution does work, and if you didn't look at the code, you might consider it sufficient. However, this is the simplest piece of what is going to be a multipart pipeline of pathing, and it has added a large amount of complexity and unknown edge cases, while also being foreign for me to read.
 
-The next change needed was to modify the A* algorithm to prevent the paths generated from colliding with each other, now that each agent was going to separate locations. My solution involved a ~30 line modification to compute each agent's path sequentially, and then keep track of what agent occupied a given location at a given time and mark it impassable in the A* search. This kind of change involved a small amount of code but a lot of thinking on my part on how to structure it. Opus 4.5 attempted a longer change to solve the problem, but was unsuccessful (~$7 lost).
+The next change needed was to modify the A* algorithm to prevent the paths generated from colliding with each other, now that each agent was going to separate locations. My solution involved a \~30 line modification to compute each agent's path sequentially, and then keep track of what agent occupied a given location at a given time and mark it impassable in the A* search. This kind of change involved a small amount of code but a lot of thinking on my part on how to structure it. Opus 4.5 attempted a longer change to solve the problem, but was unsuccessful (\~$7 lost).
 
 Interestingly, after writing my solution, I used GLM 4.7 to fix a small edge case regarding differing path lengths, and it made that change correctly.
 
