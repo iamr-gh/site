@@ -19,7 +19,7 @@ All observations are as of early January 2026.
 
 If you don't want to read a long post, here are my quick takeaways:
 1. **An experienced developer is still needed** to use these tools most effectively, pointing them in the correct direction and evaluating their decisions within a problem domain.
-2. I found **agent speed and difficulty expressing the full nature of the problem to be my limiting factor** in use. Given enough time, I could often force the agent to solve most easy-medium difficulty problems. On harder problems, I usually gave up and did it myself.
+2. I found **agent speed and difficulty expressing the full nature of the problem to be my limiting factor** in use. Given enough time, I could often force the agent to solve most easy-medium difficulty problems, especially when a verification loop is accessible to the agent. On harder problems, I usually gave up and did it myself.
 3. **Acceptance criteria varies by problem domain**, and AI output code is often bloated. In some use cases like frontend, this is less of an issue, in others like performance-intensive code, each line matters.
 4. **Intelligence in models matters.** The difference between Opus 4.5 and other alternatives is significant, and can minimize overall iterations needed as well as enable. Agentic IDEs have become good enough that the ball is back in the court of the model development.
 
@@ -95,7 +95,10 @@ This process was not cheap. Even in an environment with minimal files and well f
 The code produced in this process was well documented, the commit can be viewed [here](https://github.com/iamr-gh/essay-gptability/tree/web_demo_opus/web_demo).
 The results of this effort can be viewed at [iamr.site/gptability](iamr.site/gptability).
 
-<!-- Add an image of page -->
+<figure>
+  <img src="/images/blog/ai-coding/gptability.png" alt="GPTability deployment showing the interactive classifier tool">
+  <figcaption>Interactive transformer model deployment running in browser via WebAssembly</figcaption>
+</figure>
 
 ### Bespoke QR Code Generator
 I decided to now test the ability to transfer code over from another code base, as well as work in a less common language.
@@ -104,7 +107,10 @@ I previously wrote a (qr code generator from scratch)[https://github.com/iamr-gh
 The first task for the coding agent was to take the existing webpage and integrate it into my current site, standardizing the styling and linking some navigation.
 This task wasn't particularly difficult, the result is deployed at (iamr.site/qr)[iamr.site/qr].
 
-<!-- and an image of page -->
+<figure class="image-smaller">
+  <img src="/images/blog/ai-coding/qr.png" alt="QR code generator showing the custom styling">
+  <figcaption>Custom QR code generator built with Nim, integrated into the site</figcaption>
+</figure>
 
 The much harder task I gave Opus 4.5 was the extend the existing nim code. 
 I implemented the most basic version of the qr code specification, which only supports URLs of 17 characters.
@@ -311,9 +317,9 @@ The solution does work, and if you didn't look at the code, you might consider i
 However, this is the simplest piece of what is going to be a multipart pipeline of pathing, and it has added a large amount of complexity and unknown edge cases, while also being foreign for me to read.
 
 The next change needed was to modify the A* algorithm to prevent the paths generated from colliding with each other, now that each agent was going to separate locations.
-My solution involved a ~30 line modification to compute each agent's path sequentially, and then keep track of what agent occupied a given location at a given time and mark it impassable in the A* search.
+My solution involved a \~30 line modification to compute each agent's path sequentially, and then keep track of what agent occupied a given location at a given time and mark it impassable in the A* search.
 This kind of change involved a small amount of code but a lot of thinking on my part on how to structure it.
-Opus 4.5 attempted a longer change to solve the problem, but was unsuccessful(~$7 lost).
+Opus 4.5 attempted a longer change to solve the problem, but was unsuccessful(\~$7 lost).
 
 Interestingly, after writing my solution, I used GLM 4.7 to fix a small edge case regardling differing path lengths, and made that change correctly.
 
@@ -327,9 +333,130 @@ This project is still under development, but current progress of all these effor
 Going forward, I am mostly writing this code by hand, but I will use AI to scaffold out certain kinds of architecture and generate configurations and maps like the terrain.
 <!-- gif of final progress-->
 
+### Compile-time Metaprogamming
 
- <!-- ![Alt text](/images/blog/ai-coding/screenshot.png) -->
+As a last cheeky throw-in, I was trying to build the partial application of functions feature using zig comptime.
+This was not something nessecary, but a nice feature I like languages, so I was seeing if I could write it for my existing project.
 
+Me specific requirements were quite strict, I wanted to be able to pass in a function f(a,b,c,d) into the partial(.{v_a,v_b}, f) and get a function pointer out that only took c,d as parameters with the other two applied.
+Zig is a compiled language without garbage collection or first-class functions, so all of this needs to occur at compile time.
+
+Most AI search tools told me this wasn't possible, and indeed when I forced them to create outputs they weren't good.
+I ended up fiddling with comptime programming a little more myself, and writing a solution.
+Due to some changes in zig .15, the construction of this is harder than it used to be, requiring some hard coding of arity with a switch.
+
+```zig
+// my solution
+fn concatTuples(a: anytype, b: anytype) concatType(@TypeOf(a), @TypeOf(b)) {
+    const T1 = @TypeOf(a);
+    const T2 = @TypeOf(b);
+    const len1 = @typeInfo(T1).@"struct".fields.len;
+    const len2 = @typeInfo(T2).@"struct".fields.len;
+    var result: concatType(T1, T2) = undefined;
+    inline for (0..len1) |i| result[i] = a[i];
+    inline for (0..len2) |i| result[i + len1] = b[i];
+    return result;
+}
+
+fn concatType(comptime T1: type, comptime T2: type) type {
+    const fields1 = @typeInfo(T1).@"struct".fields;
+    const fields2 = @typeInfo(T2).@"struct".fields;
+    var types: [fields1.len + fields2.len]type = undefined;
+    inline for (fields1, 0..) |f, i| types[i] = f.type;
+    inline for (fields2, 0..) |f, i| types[i + fields1.len] = f.type;
+    return std.meta.Tuple(&types);
+}
+
+fn makeFunc(comptime T: type, comptime f: anytype, provided: anytype) T {
+    const info = @typeInfo(T);
+    const Fn = info.@"fn";
+    const params = Fn.params;
+    return switch (params.len) {
+        0 => struct {
+            fn wrapper() Fn.return_type.? {
+                return @call(.auto, f, provided);
+            }
+        }.wrapper,
+        1 => struct {
+            fn wrapper(a: params[0].type.?) Fn.return_type.? {
+                const in = concatTuples(provided, .{a});
+                return @call(.auto, f, in);
+            }
+        }.wrapper,
+        // ...
+    }
+}
+
+fn partialType(comptime args: type, comptime f: type) type {
+    const args_info = @typeInfo(args);
+    var f_info = @typeInfo(f);
+    const original_arg_types = f_info.@"fn".params;
+    f_info.@"fn".params = original_arg_types[args_info.@"struct".fields.len..];
+    return @Type(f_info);
+}
+
+pub fn partial(args: anytype, comptime f: anytype) partialType(@TypeOf(args), @TypeOf(f)) {
+    const out_t = partialType(@TypeOf(args), @TypeOf(f));
+    return makeFunc(out_t, f, args);
+}
+```
+
+But I had forgotten to test forcing opus 4.5 to do it.
+I don't know if because I solved the problem I knew how to prompt it in the right ways or if I hadn't sanitized my environment properly, but upon a second attempt, opus 4.5 solved my problem for $1.47 in short order, with a solution in the same fashion as mine, but (surprisingly) more condensed.
+
+```zig
+// opus 4.5
+fn PartialFn(comptime F: type, comptime n: usize) type {
+    const info = @typeInfo(F).@"fn";
+    var new_params: [info.params.len - n]std.builtin.Type.Fn.Param = undefined;
+    for (info.params[n..], 0..) |p, i| {
+        new_params[i] = p;
+    }
+    return @Type(.{ .@"fn" = .{
+        .calling_convention = info.calling_convention,
+        .is_generic = false,
+        .is_var_args = info.is_var_args,
+        .return_type = info.return_type,
+        .params = &new_params,
+    } });
+}
+
+pub fn partial(comptime f: anytype, comptime bound_args: anytype) PartialFn(@TypeOf(f), bound_args.len) {
+    const F = @TypeOf(f);
+    const info = @typeInfo(F).@"fn";
+    const bound_count = bound_args.len;
+    const remaining_count = info.params.len - bound_count;
+    const p = info.params;
+    const Impl = struct {
+        inline fn callWithArgs(remaining_tuple: std.meta.ArgsTuple(PartialFn(F, bound_count))) info.return_type.? {
+            var full_args: std.meta.ArgsTuple(F) = undefined;
+            inline for (0..bound_count) |i| {
+                full_args[i] = bound_args[i];
+            }
+            inline for (0..remaining_count) |i| {
+                full_args[bound_count + i] = remaining_tuple[i];
+            }
+            return @call(.auto, f, full_args);
+        }
+    };
+    return switch (remaining_count) {
+        0 => struct {
+            fn call() info.return_type.? {
+                return Impl.callWithArgs(.{});
+            }
+        }.call,
+        1 => struct {
+            fn call(a0: p[bound_count].type.?) info.return_type.? {
+                return Impl.callWithArgs(.{a0});
+            }
+        }.call,
+        //...
+    }
+}
+```
+
+This likely seems like a minor deal to most people, but I am impressed that a coding agent could figure out a niche feature in a less popular language and produce working code for an uncommon task.
+Zig recently pushed breaking changes to this kind of code in their recent release(0.15), and the agent was able to navigate that in context, even though such things were not in training data.
 
 <!-- broader takeaways-->
 <!-- 1. **An experienced developer is still needed** to use these tools most effectively, pointing them in the correct direction and evaluating their decisions within a problem domain. -->
@@ -340,19 +467,46 @@ Going forward, I am mostly writing this code by hand, but I will use AI to scaff
 ## Broader Observations
 
 ### Vibe Waiting and Time Management
+Personally, I have always favored faster non-reasoning llms for searching tasks, things like Gemini Flash, GPT 5.x Instant, Kimi K2 0905, etc.
+This is because of the classic "code is compiling" problem, if I have to wait for long enough, I get distracted from the project and lose a lot of productivity from the flow break(checking phone, etc.).
+These tools take this problem to the extreme, because once you set them running, they take awhile to give a result.
+The natural thing to do is to start the tool, get distracted and do something unproductive, and only come back when the tool is done. 
+I call this phenomena "Vibe Waiting", and I think it is something to be avoided, even if you are the most bullish AI user.
+If you are using AI as part of your workflow, I believe you must not let waiting on an LLM be a blocking task, otherwise most of the productivity gains are lost.
+There are many useful things you can do while an agent is running in the background. 
+You could queue up other agents and hop between managing them, you could focus on a part of the codebase the AI can't do as well, or you could do research or review other parts of the code base.
+This aspect is why people liken coding agents to managing a team or playing an RTS game, the core idea is to keep yourself unblocked as much as possible and manage your time effectively.
+The creator of claude code [recently shared](https://x.com/bcherny/status/2007179832300581177) that he will often have 6 coding agents running in parallel, and then turn on desktop notifications for when each of them need his feedback.
+Such time management/multitasking I view as critically important if you want to take advantage of these agents, otherwise they will actively waste your time and teach you to turn off your brain.
 
 ### Connection to Code
+On the topic of turning off your brain, I view the biggest problem of AI code generation is it encourages you to rely on code you don't read or understand.
+There are a various detrimental effects of not being connected to the codebase that are unique in agent vs traditional coding.
+One is that is the agent is not able to solve your problem, it is often worse to debug code that you didn't write, and you may be gatekept from your own code by neding to ask the agent for clarification.
+This is why I believe developers with familiarity in the subject matter, as well as simpler languages/tools, substantially improve the agentic coding experience, because of the ability for the human to read and edit the code.
+Another issue is a level of understanding of the actual capabilities of the code created.
+Passing tests can help with this problem, but most software has various edge cases and limitations to what it can do, that may or may not have been fully encoded within the specification, or fully reported by the agent.
+You may not know how generalizable or special cased some pieces of software are, let alone anything about performance characteristics, flexibility to change pieces, etc.
+As you try to judge the decisions the agents make going forward(such as discussions in planning mode), and direct them to solve unsolved problems, your innate understanding of what those are, of what can or could go wrong, is imperative in shaping how the project is designed.
+In this stage where these agents still rely on human direction, poor technical understanding of how your system works will lead to poor decisions about how to change it going forward.
+It's the same reason we value leadership with technical understanding in the software field, not just a business background.
 
 ### When is AI Good Enough?
+I think the efficacy of AI code is deeply tied to acceptance standards in the particular domain.
+This is partially due to models being trained on some tasks more than others, but it's also how easy a verification loop can be made, and how tight are efficiency concerns.
+Within these experiments, in frontend I had very low acceptance standards, if the page renders and it looks good enough, I don't care how it occurred.
+When I am writing a pathing engine, I very much do care about efficiency and simplicity in the code, so the model is not as helpful.
+In my QR code case, there was no scaffolding for an incremental verification loop, so the model had to make big jumps without checking its work, and was not able to efficiently make progress.
+These differences explain why some people think that software engineering has been solved by AI, and some people think that it's absolutely useless.
+The reality is somewhere in between, and both may be right.
+
 
 ## Going Forward
-
-<!-- need to be a little more refined and specific on this-->
-After this exploration, I primarily intend to use coding agents when I want to make frontend changes or do boilerplate heavy scripting, and have a low acceptance criteria(it looks pretty/the build works). 
+After this exploration, I primarily intend to use coding agents when I want to make frontend changes or do boilerplate heavy activities that involve more googling than writing code. 
 For any more complex task, I prefer to write the code and do the setup myself.
 My current headspace treats AI as a customizable blackbox dependency generator of sorts. 
-If I am not willing to import a package I wouldn't read, I am not willing to use AI code for the problem.
-Exceptions to this are when the changes are of small enough magnitude I can read them.
+If I am not willing to import a package I wouldn't read, I am not willing to use AI code to solve the problem.
+Exceptions to this are when the changes are of small enough magnitude I can read them, in a clear enough language that I am not concerned about hidden behavior.
 
 I have turned off AI autocomplete for most languages, I find that in the domains where it is useful, I can allow full fledged agentic coding, and if it's not, then it's usually distracting. 
 I am not certain I'll keep it this way, perhaps I will turn it on again if I work in more boilerplate heavy environments.
@@ -361,12 +515,13 @@ In order for me to integrate agentic coding into more of my workflows, a core im
 Because the edits take so long, agents require various amounts of babysitting to be effective, which breaks my workflow and encourages me to get distracted and not give it close scrutiny.
 These speed changes tie hand in hand with testing, as errors can be caught earlier via rapid iteration and validation of how well the current solution fits the problem.
 This is how I prefer to use LLMs for search, faster models that give a quick response which I can then steer to the answers I am looking for, rather than trying to put in some prompt/context engineering work ahead of time, and not know whether it would pay off.
-A much more intelligent model that could confidently one-shot any problem and resolve all edge cases would also resolve this concern, 
+A much more intelligent model that could confidently one-shot any problem and resolve all edge cases would also resolve this concern, but I only see that possible in closed environments with many tests.
 
 I think my use will change in the future, and I am impressed by how much these tools have improved in the last 6 months.
 My message to foundational model companies is to focus on model speed and consistency over intelligence going forward, this is what I am looking for to be able to more confidently use agents to speed up my development process.
 Failing early would also be a useful feature. 
-I discovered the limtations of the models after running them for a certain amount of time, and it would be preferable if the model could gauge it's own ability in some form, before users need to spend high amounts of inference to not solve the problem.
+I discovered the limitations of the models after running them for a certain amount of time, and it would be preferable if the model could gauge it's own ability in some form, before users need to spend high amounts of inference to not solve the problem.
 
 One problem I think will remain difficult long term is the ability for human's to express the details of their problem to the LLM.
-There is a lot that a person might have in their mind that is difficult to rapidly communicate with natural languague, and to defin it it often most of the work for a person to solve it themselves.
+There is a lot that a person might have in their mind that is difficult to rapidly communicate with natural languague, and to define it it often most of the work for a person to solve it themselves.
+This was a recurring difficulty in most of my projects, particularly the game development.

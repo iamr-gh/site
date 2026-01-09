@@ -272,6 +272,18 @@
   @apply text-center text-sm text-muted-foreground mt-4 font-medium;
 }
 
+.prose-technical img {
+  @apply border border-border rounded;
+}
+
+.prose-technical .image-smaller {
+  @apply w-[70%] mx-auto;
+}
+
+.prose-technical .image-smaller img {
+  @apply w-full;
+}
+
 .prose-technical ul,
 .prose-technical ol {
   @apply my-8 space-y-3;
