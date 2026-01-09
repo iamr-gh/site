@@ -276,6 +276,13 @@
   @apply border border-border rounded;
 }
 
+.prose-technical video {
+  @apply border border-border rounded;
+  display: block;
+  margin: 0 auto;
+  @apply w-full;
+}
+
 .prose-technical .image-smaller {
   @apply w-[70%] mx-auto;
 }

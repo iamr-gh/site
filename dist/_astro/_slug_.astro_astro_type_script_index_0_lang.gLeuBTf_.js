@@ -1,0 +1,1 @@
+const e=document.getElementById("reading-progress");e&&window.addEventListener("scroll",()=>{const t=window.pageYOffset||document.documentElement.scrollTop,o=document.documentElement.scrollHeight-document.documentElement.clientHeight,n=t/o*100;e.style.width=n+"%"});

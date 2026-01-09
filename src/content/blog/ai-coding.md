@@ -117,7 +117,10 @@ I implemented the most basic version of the qr code specification, which only su
 The higher versions of the specification are more complicated, combining extensions to the error correcting algorithm as well as spatial reasoning about different formats.
 This task was admittedly quite difficult, but I was curious if such knowledge was within its training data or if it could look up existing implementations and translate them to another language.
 
-<!-- image of v1 vs v2 qr codes?-->
+<figure>
+  <img src="/images/blog/ai-coding/v1_vs_v2_qr_codes.jpeg" alt="Comparison of QR code v1 and v2 specifications showing size and complexity differences">
+  <figcaption>QR code specification v1 (17 chars) vs v2 (extended) showing increased capacity and complexity</figcaption>
+</figure>
 
 Opus 4.5 was able to end up with nim code that compiled correctly and output a qr code of the correct size that looked reminiscent of the extended specification. However, these qr codes do not pass the test of an external reader. 
 After prompting the model that it's code did not work, it introspected further, but without a checker integrated into the loop, it was unable to make progress on the problem. 
@@ -139,7 +142,12 @@ This project was in early stages when I started consisting of just a rendered gr
 GLM 4.7 was able to bring this up to interactive single agent pathing in an environment with obstacles.
 This was within the realm of common boilerplate, but still impressive that it output an implementation of A* within zig.
 
-<!-- insert a gif of initial single agent pathing-->
+<figure>
+  <video autoplay loop muted playsinline>
+    <source src="/images/blog/ai-coding/single_agent_pathing.mp4" type="video/mp4">
+  </video>
+  <figcaption>Initial single agent pathing implementation using A* algorithm with obstacle avoidance</figcaption>
+</figure>
 
 The next step of this was where the complexity of the project lies, implementing multiagent pathing while trying to minimize collisions.
 This involves modifying existing algorithms, creating a unique planner for this particular circumstance.
@@ -330,8 +338,15 @@ In this effort, I was able to get GLM 4.7 to generate a procedural map generator
 This is one of the sections of code that I almost exclusively use AI generation for, given that the results don't need to be perfect, and for me to solve the problem would be mostly searching up existing solutions.
 
 This project is still under development, but current progress of all these efforts is shown below.
+
+<figure>
+  <video autoplay loop muted playsinline>
+    <source src="/images/blog/ai-coding/multiagent_progress.mp4" type="video/mp4">
+  </video>
+  <figcaption>Current progress with multiagent pathing with procedural terrain generation</figcaption>
+</figure>
+
 Going forward, I am mostly writing this code by hand, but I will use AI to scaffold out certain kinds of architecture and generate configurations and maps like the terrain.
-<!-- gif of final progress-->
 
 ### Compile-time Metaprogamming
 
