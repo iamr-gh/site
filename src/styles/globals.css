@@ -116,11 +116,12 @@
 
 /* Enhanced technical prose styling */
 .prose-technical {
-  @apply prose prose-xl font-serif leading-relaxed max-w-none;
+  @apply prose prose-xl font-serif leading-relaxed;
   font-size: 1.125rem;
   line-height: 1.75;
   color: hsl(var(--foreground));
   font-family: 'Noto Serif', 'Inter', 'Georgia', serif;
+  padding: 0;
 }
 
 /* Responsive typography */
@@ -128,12 +129,10 @@
   .prose-technical {
     font-size: 1rem;
     line-height: 1.7;
-    padding: 0 1rem;
   }
   
   .prose-technical p {
     font-size: 1rem;
-    max-width: none;
     margin-bottom: 1.5rem;
   }
   
@@ -216,7 +215,6 @@
   .prose-technical p {
     font-size: 1.125rem;
     line-height: 1.8;
-    max-width: none;
   }
 }
 
@@ -457,23 +455,46 @@ figure[data-rehype-pretty-code-figure] code span[style*="--shiki-dark"] {
 
 /* TOC styling */
 .toc {
-  @apply sticky top-4 bg-card border rounded-lg p-4 max-h-[calc(100vh-2rem)] overflow-y-auto;
+  @apply bg-card/50 border border-border/50 rounded-md p-3 max-h-[calc(100vh-2rem)] overflow-y-auto;
 }
 
 .toc-title {
-  @apply font-medium mb-3 text-sm;
+  @apply font-medium mb-3 text-sm font-semibold text-foreground;
 }
 
 .toc-list {
-  @apply space-y-2 text-sm;
+  @apply space-y-1 text-sm list-none m-0 p-0;
+}
+
+.toc-item-wrapper {
+  @apply list-none m-0 p-0;
 }
 
 .toc-item {
-  @apply block py-1 text-muted-foreground hover:text-foreground transition-colors;
+  @apply block py-1 px-2 text-muted-foreground hover:text-foreground transition-colors border-l-2 border-transparent;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  display: block;
 }
 
 .toc-item.active {
-  @apply text-primary font-medium;
+  @apply text-primary bg-accent border-l-primary;
+}
+
+.toc-item[data-level="3"] {
+  @apply pl-4 text-xs;
+}
+
+.toc-item[data-level="4"] {
+  @apply pl-6 text-xs;
+}
+
+.toc-item[data-level="5"] {
+  @apply pl-8 text-xs;
+}
+
+.toc-item[data-level="6"] {
+  @apply pl-10 text-xs;
 }
 
 /* Typing cursor animation */
