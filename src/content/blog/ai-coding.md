@@ -8,7 +8,7 @@ tags: ['ai']
 
 # Experiments with AI Coding
 
-AI coding has become substantially better in the last six months. I only use auto complete in my current workflows, and haven't extensively tried alternative approaches. As I am soon starting a job to build [RL environments to improve coding agents](https://www.ycombinator.com/companies/idler), I wish to get a better understanding of abilities and limitations of the current technology.
+AI coding has become substantially better in the last six months. As I am soon starting a job to build [RL environments to improve coding agents](https://www.ycombinator.com/companies/idler), I wish to get a better understanding of abilities and limitations of the current technology.
 
 In this blog post, I evaluate how useful these tools are at solving my problems by trying to unblock various stale side projects. This is not with respect to any benchmark other than my personal real life usage.
 
