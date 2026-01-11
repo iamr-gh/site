@@ -50,7 +50,7 @@ const { Content } = await entry.render();
         <!-- Mobile TOC Toggle Button -->
         <button 
           id="toc-toggle"
-          class="lg:hidden fixed top-24 left-4 z-50 inline-flex items-center justify-center rounded-lg p-2 bg-background border border-border hover:bg-accent transition-colors shadow-md"
+          class="lg:hidden fixed top-20 right-4 z-50 inline-flex items-center justify-center rounded-lg p-2 bg-background border border-border hover:bg-accent transition-colors shadow-md"
           aria-label="Toggle Table of Contents"
         >
           <Menu id="toc-menu-icon" className="h-5 w-5" />
@@ -64,22 +64,36 @@ const { Content } = await entry.render();
         ></div>
 
         <!-- Mobile TOC Slide-in Panel -->
-        <aside 
+        <aside
           id="mobile-toc-panel"
-          class="lg:hidden fixed left-0 top-0 bottom-0 w-80 max-w-[85vw] bg-background z-40 transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto"
+          class="lg:hidden fixed right-0 top-16 bottom-0 w-80 max-w-[85vw] bg-background z-40 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto border-l border-border/50"
         >
-          <div class="p-6">
+          <div class="p-4">
             <div class="flex items-center justify-between mb-4">
               <h2 class="text-lg font-semibold">Contents</h2>
-              <button 
+              <button
                 id="toc-close-btn"
-                class="inline-flex items-center justify-center rounded-md p-1 hover:bg-accent transition-colors"
+                class="inline-flex items-center justify-center rounded-lg p-2 bg-background border border-border hover:bg-accent transition-colors"
                 aria-label="Close Table of Contents"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <TableOfContents headings={headings} />
+            <nav class="toc-mobile" aria-label="Table of Contents">
+              <ul class="toc-list">
+                {headings.map(heading => (
+                  <li class="toc-item-wrapper" data-level={heading.level}>
+                    <a
+                      href={`#${heading.id}`}
+                      class="toc-item-mobile"
+                      data-level={heading.level}
+                    >
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
         </aside>
 
@@ -184,7 +198,7 @@ const { Content } = await entry.render();
 
   function openMobileTOC() {
     if (!tocPanel || !tocOverlay || !tocMenuIcon || !tocCloseIcon) return;
-    tocPanel.classList.remove('-translate-x-full');
+    tocPanel.classList.remove('translate-x-full');
     tocOverlay.classList.remove('hidden');
     tocMenuIcon.classList.add('hidden');
     tocCloseIcon.classList.remove('hidden');
@@ -193,7 +207,7 @@ const { Content } = await entry.render();
 
   function closeMobileTOC() {
     if (!tocPanel || !tocOverlay || !tocMenuIcon || !tocCloseIcon) return;
-    tocPanel.classList.add('-translate-x-full');
+    tocPanel.classList.add('translate-x-full');
     tocOverlay.classList.add('hidden');
     tocMenuIcon.classList.remove('hidden');
     tocCloseIcon.classList.add('hidden');
@@ -202,7 +216,7 @@ const { Content } = await entry.render();
 
   if (tocToggle) {
     tocToggle.addEventListener('click', () => {
-      if (tocPanel?.classList.contains('-translate-x-full')) {
+      if (tocPanel?.classList.contains('translate-x-full')) {
         openMobileTOC();
       } else {
         closeMobileTOC();
@@ -226,7 +240,52 @@ const { Content } = await entry.render();
   });
 
   // Close TOC when clicking on a TOC link
-  document.querySelectorAll('#mobile-toc-panel .toc-item').forEach(item => {
+  document.querySelectorAll('#mobile-toc-panel .toc-item-mobile').forEach(item => {
     item.addEventListener('click', closeMobileTOC);
+  });
+
+  // Mobile TOC active highlighting (preserved from desktop)
+  const mobileTocItems = document.querySelectorAll('.toc-item-mobile');
+  const sections = document.querySelectorAll('h2, h3, h4, h5, h6');
+
+  function updateMobileActiveTOC() {
+    let currentSection = '';
+
+    sections.forEach(section => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 96) {
+        currentSection = section.id;
+      }
+    });
+
+    mobileTocItems.forEach(item => {
+      if (item.getAttribute('href') === `#${currentSection}`) {
+        item.classList.add('active');
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateMobileActiveTOC);
+  updateMobileActiveTOC();
+
+  // Mobile TOC smooth scroll (preserved)
+  document.querySelectorAll('.toc-item-mobile').forEach(item => {
+    item.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = item.getAttribute('href')?.slice(1);
+      const targetElement = targetId ? document.getElementById(targetId) : null;
+      if (targetElement) {
+        const headerOffset = 96;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
   });
 </script>
