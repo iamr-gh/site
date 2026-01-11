@@ -497,6 +497,37 @@ figure[data-rehype-pretty-code-figure] code span[style*="--shiki-dark"] {
   @apply pl-10 text-xs;
 }
 
+/* Mobile TOC styling */
+.toc-mobile {
+  @apply space-y-2;
+}
+
+.toc-item-mobile {
+  @apply block py-2 px-3 text-foreground hover:bg-accent rounded-md transition-colors;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.toc-item-mobile.active {
+  @apply bg-accent text-primary border-l-4 border-primary pl-2;
+}
+
+.toc-item-mobile[data-level="3"] {
+  @apply pl-5 text-xs opacity-80;
+}
+
+.toc-item-mobile[data-level="4"] {
+  @apply pl-7 text-xs opacity-70;
+}
+
+.toc-item-mobile[data-level="5"] {
+  @apply pl-9 text-xs opacity-60;
+}
+
+.toc-item-mobile[data-level="6"] {
+  @apply pl-11 text-xs opacity-50;
+}
+
 /* Typing cursor animation */
 .typing-cursor {
   animation: blink-cursor 1.2s infinite;
