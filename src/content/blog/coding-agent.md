@@ -41,11 +41,27 @@ Try to have deliberate design ideas, I think a lot of work can be done at the in
 Stateful, nothing is lost. I really like the idea of different parts getting RL'd.
 Long term is the idea of embedding baby models into binaries with self modifying code.
 
+Ability to make strong reversions, and even divergences would be nice.
+
+Analyzing which llm is needed where is significant.
+Try to create tight verification loops on criteria seems useful.
+
+A less sketch version of gas town is goal.
+
+
+Non blocking agents is also a dream, but harder to acheive I think. Or at least until they are well understood and guided.
+
+See everything, and on different from other side.
+
 ## Core Pieces
 
 LLM interface: prompts back and forth, ideally as cross compatible as possible(opencode Zen?).
 
 Tools: some interpretation of the interaction into action
 
-Prompting: how to guide the agents, and try to make planning and execution
+Prompting: how to guide the agents, and try to make planning and execution(ideally not needed)
+This includes some of the fancy question answer uis people use.
+
+Context management: non trivial, but need goes down per model.
+
 
