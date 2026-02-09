@@ -1,0 +1,197 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Three-Body Problem | iamr">
+  <main class="three-body-container">
+    <canvas id="canvas"></canvas>
+    <div id="controls">
+      <h2>Three-Body Problem</h2>
+      <div class="preset-control">
+        <label>Preset Configuration</label>
+        <select id="preset">
+          <option value="figure8">Figure-8 Orbit</option>
+          <option value="lagrange">Lagrange Triangle</option>
+          <option value="chaotic">Chaotic Bound</option>
+          <option value="butterfly">Butterfly</option>
+        </select>
+      </div>
+      <div class="mass-control">
+        <label><span class="dot" style="background:#ff6b6b"></span>Mass 1</label>
+        <input type="range" id="mass0" min="0.5" max="5" step="0.1" value="1">
+      </div>
+      <div class="mass-control">
+        <label><span class="dot" style="background:#4ecdc4"></span>Mass 2</label>
+        <input type="range" id="mass1" min="0.5" max="5" step="0.1" value="1">
+      </div>
+      <div class="mass-control">
+        <label><span class="dot" style="background:#ffe66d"></span>Mass 3</label>
+        <input type="range" id="mass2" min="0.5" max="5" step="0.1" value="1">
+      </div>
+      <div class="buttons">
+        <button id="compute">Pause</button>
+        <button id="reset">Reset</button>
+      </div>
+      <p class="hint">Drag body center to move position.<br>Drag from body edge to set velocity.</p>
+      
+      <!-- Footer with Source Link -->
+      <footer class="source-footer">
+        <a 
+          href="https://github.com/iamr-gh/3body" 
+          target="_blank" 
+          rel="noopener noreferrer"
+        >
+          <svg class="github-icon" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          View Source
+        </a>
+      </footer>
+    </div>
+  </main>
+
+  <style>
+    .three-body-container {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #canvas {
+      display: block;
+    }
+
+    #controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      color: #fff;
+      min-width: 200px;
+      font-family: system-ui, sans-serif;
+    }
+
+    #controls h2 {
+      margin: 0 0 15px 0;
+      font-size: 16px;
+    }
+
+    .mass-control {
+      margin-bottom: 12px;
+    }
+
+    .mass-control label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .mass-control .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .mass-control input[type="range"] {
+      width: 100%;
+      margin-top: 4px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    #controls button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    #compute {
+      background: #4a9eff;
+      color: #fff;
+    }
+
+    #compute:hover {
+      background: #3a8eef;
+    }
+
+    #reset {
+      background: #444;
+      color: #fff;
+    }
+
+    #reset:hover {
+      background: #555;
+    }
+
+    .preset-control {
+      margin-bottom: 15px;
+    }
+
+    .preset-control label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .preset-control select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      background: #333;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: #888;
+      margin-top: 15px;
+      line-height: 1.5;
+    }
+
+    .source-footer {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #333;
+    }
+
+    .source-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #888;
+      text-decoration: none;
+      font-size: 12px;
+      transition: color 0.2s;
+    }
+
+    .source-footer a:hover {
+      color: #fff;
+    }
+
+    .github-icon {
+      width: 14px;
+      height: 14px;
+    }
+  </style>
+
+  <script src="/3body.js" is:inline></script>
+</Layout>
