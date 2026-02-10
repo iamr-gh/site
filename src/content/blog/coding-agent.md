@@ -43,11 +43,15 @@ Long term is the idea of embedding baby models into binaries with self modifying
 
 Ability to make strong reversions, and even divergences would be nice.
 
-Analyzing which llm is needed where is significant.
+Analyzing which llm is needed where is significant(smarter vs dumber).
 Try to create tight verification loops on criteria seems useful.
 
 A less sketch version of gas town is goal.
 
+There should be a way to queue up multiple agents in client, and perhaps some lock or temp system between them.
+Tmux is fine but annoying sometimes.
+
+A stronger revert system would also be nice, but get does work.
 
 Non blocking agents is also a dream, but harder to acheive I think. Or at least until they are well understood and guided.
 
