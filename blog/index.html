@@ -17,9 +17,8 @@
       rel="stylesheet"
     />
     <link href="/assets/site.css" rel="stylesheet" />
-    <script src="/assets/datastar.js" type="module"></script>
   </head>
-  <body class="font-sans font-noto-sans" data-signals="{tag: ''}">
+  <body class="font-sans font-noto-sans">
     <header class="p-3 md:p-4 border-b bg-background">
       <nav class="container flex justify-between items-center">
         <a class="text-xl font-light tracking-wide" href="/">iamr</a>
@@ -30,58 +29,10 @@
       </nav>
     </header>
     <main class="container py-8 max-w-4xl mx-auto">
-      <!-- Tag Filter Section -->
-      <div class="mb-6 sm:mb-8">
-        <div
-          class="flex items-start sm:items-center gap-2 sm:gap-4 flex-col sm:flex-row"
-        >
-          <span
-            class="text-sm font-medium text-muted-foreground whitespace-nowrap"
-            >Filter:</span
-          >
-          <div class="flex gap-2 flex-wrap" id="tag-filters">
-            <!-- All button -->
-            <button
-              class="tag-filter-btn active inline-flex items-center px-2.5 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors min-h-[32px]"
-              data-class="{'bg-primary': $tag === '', 'text-primary-foreground': $tag === '', 'bg-secondary': !($tag === ''), 'text-secondary-foreground': !($tag === '')}"
-              data-on:click="$tag = ''"
-              data-tag=""
-            >
-              All
-            </button>
-            <!-- Dynamic tags -->
-            <button
-              class="tag-filter-btn inline-flex items-center px-2.5 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors min-h-[32px]"
-              data-class="{'bg-primary': $tag === 'ai', 'text-primary-foreground': $tag === 'ai', 'bg-secondary': !($tag === 'ai'), 'text-secondary-foreground': !($tag === 'ai')}"
-              data-on:click="$tag = 'ai'"
-              data-tag="ai"
-            >
-              ai</button
-            ><button
-              class="tag-filter-btn inline-flex items-center px-2.5 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors min-h-[32px]"
-              data-class="{'bg-primary': $tag === 'meta', 'text-primary-foreground': $tag === 'meta', 'bg-secondary': !($tag === 'meta'), 'text-secondary-foreground': !($tag === 'meta')}"
-              data-on:click="$tag = 'meta'"
-              data-tag="meta"
-            >
-              meta
-            </button>
-            <!-- Clear button -->
-            <button
-              class="inline-flex items-center px-2.5 py-1.5 bg-muted text-muted-foreground rounded-lg text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors min-h-[32px]"
-              data-on:click="$tag = ''"
-              id="clear-tags"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-      </div>
       <!-- Blog Posts List -->
       <div class="space-y-0" id="posts-list">
         <div
           class="post-item"
-          data-show="$tag === '' || el.dataset.tags.split(' ').includes($tag)"
-          data-tags="ai"
         >
           <div class="post-line py-3 border-b border-border last:border-b-0">
             <a class="block group" href="/blog/ai-coding">
@@ -111,8 +62,6 @@
         </div>
         <div
           class="post-item"
-          data-show="$tag === '' || el.dataset.tags.split(' ').includes($tag)"
-          data-tags="meta"
         >
           <div class="post-line py-3 border-b border-border last:border-b-0">
             <a class="block group" href="/blog/better-software">
@@ -142,8 +91,6 @@
         </div>
         <div
           class="post-item"
-          data-show="$tag === '' || el.dataset.tags.split(' ').includes($tag)"
-          data-tags="meta"
         >
           <div class="post-line py-3 border-b border-border last:border-b-0">
             <a class="block group" href="/blog/why">
