@@ -17,13 +17,8 @@
       rel="stylesheet"
     />
     <link href="/assets/site.css" rel="stylesheet" />
-    <script src="/assets/datastar.js" type="module"></script>
   </head>
-  <body
-    class="font-sans font-noto-sans"
-    data-on:keydown__window="$tocOpen = evt.key === 'Escape' ? false : $tocOpen"
-    data-signals="{tocOpen: false}"
-  >
+  <body class="font-sans font-noto-sans">
     <header
       class="p-3 md:p-4 border-b sticky top-0 bg-background z-50"
     >
@@ -36,22 +31,17 @@
       </nav>
     </header>
     <main class="py-8">
-      <div
-        data-effect="document.body.style.overflow = $tocOpen ? 'hidden' : ''"
-        id="mobile-toc-container"
-      >
+      <div id="mobile-toc-container">
         <!-- Mobile TOC Toggle Button -->
         <button
           aria-label="Toggle Table of Contents"
           class="lg:hidden fixed top-20 right-4 z-50 inline-flex items-center justify-center rounded-lg p-2 bg-background border border-border hover:bg-accent transition-colors shadow-md"
-          data-attr:aria-expanded="$tocOpen"
-          data-on:click="$tocOpen = !$tocOpen"
+          aria-expanded="false"
           id="toc-toggle"
         >
           <svg
             aria-hidden="true"
             class="lucide lucide-menu h-5 w-5"
-            data-show="!$tocOpen"
             fill="none"
             height="24"
             id="toc-menu-icon"
@@ -70,7 +60,7 @@
           <svg
             aria-hidden="true"
             class="lucide lucide-x h-5 w-5"
-            data-show="$tocOpen"
+            hidden
             fill="none"
             height="24"
             id="toc-close-icon"
@@ -78,7 +68,6 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            style="display: none"
             viewbox="0 0 24 24"
             width="24"
             xmlns="http://www.w3.org/2000/svg"
@@ -90,15 +79,12 @@
         <!-- Mobile TOC Overlay -->
         <div
           class="lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-          data-on:click="$tocOpen = false"
-          data-show="$tocOpen"
           id="toc-overlay"
-          style="display: none"
+          hidden
         ></div>
         <!-- Mobile TOC Slide-in Panel -->
         <aside
           class="lg:hidden fixed right-0 top-16 bottom-0 w-80 max-w-[85vw] bg-background z-40 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto border-l border-border/50"
-          data-class:translate-x-full="!$tocOpen"
           id="mobile-toc-panel"
         >
           <div class="p-4">
@@ -107,7 +93,6 @@
               <button
                 aria-label="Close Table of Contents"
                 class="inline-flex items-center justify-center rounded-lg p-2 bg-background border border-border hover:bg-accent transition-colors"
-                data-on:click="$tocOpen = false"
                 id="toc-close-btn"
               >
                 <svg
@@ -134,7 +119,6 @@
                   <a
                     class="toc-item-mobile"
                     data-level="2"
-                    data-on:click="$tocOpen = false"
                     href="#other-sites"
                   >
                     Other Sites
@@ -144,7 +128,6 @@
                   <a
                     class="toc-item-mobile"
                     data-level="2"
-                    data-on:click="$tocOpen = false"
                     href="#unique-value-of-a-personal-site"
                   >
                     Unique Value of a Personal Site
@@ -154,7 +137,6 @@
                   <a
                     class="toc-item-mobile"
                     data-level="3"
-                    data-on:click="$tocOpen = false"
                     href="#blog"
                   >
                     Blog
@@ -164,7 +146,6 @@
                   <a
                     class="toc-item-mobile"
                     data-level="3"
-                    data-on:click="$tocOpen = false"
                     href="#demos-and-tools"
                   >
                     Demos and Tools
@@ -306,5 +287,6 @@
         </div>
       </div>
     </main>
+    <script src="/assets/blog-toc.js"></script>
   </body>
 </html>

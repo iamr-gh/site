@@ -119,7 +119,11 @@ function downloadPNG() {
   img.src = url;
 }
 
-// Initialize with a default QR code
+// Wire up the static page controls and initialize a default QR code.
 document.addEventListener("DOMContentLoaded", function () {
+  const input = document.getElementById("qr-input");
+  input?.addEventListener("input", (event) => makeQRCode(event.currentTarget.value));
+  document.getElementById("download-png")?.addEventListener("click", downloadPNG);
+  document.getElementById("download-svg")?.addEventListener("click", downloadSVG);
   makeQRCode("Hello World");
 });

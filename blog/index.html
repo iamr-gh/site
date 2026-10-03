@@ -29,10 +29,53 @@
       </nav>
     </header>
     <main class="container py-8 max-w-4xl mx-auto">
+      <!-- Tag Filter Section -->
+      <div class="mb-6 sm:mb-8">
+        <div
+          class="flex items-start sm:items-center gap-2 sm:gap-4 flex-col sm:flex-row"
+        >
+          <span
+            class="text-sm font-medium text-muted-foreground whitespace-nowrap"
+            >Filter:</span
+          >
+          <div class="flex gap-2 flex-wrap" id="tag-filters">
+            <!-- All button -->
+            <button
+              class="tag-filter-btn active inline-flex items-center px-2.5 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-medium hover:bg-primary/90 transition-colors min-h-[32px]"
+              aria-pressed="true"
+              data-tag=""
+            >
+              All
+            </button>
+            <!-- Dynamic tags -->
+            <button
+              class="tag-filter-btn inline-flex items-center px-2.5 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors min-h-[32px]"
+              aria-pressed="false"
+              data-tag="ai"
+            >
+              ai</button
+            ><button
+              class="tag-filter-btn inline-flex items-center px-2.5 py-1.5 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium hover:bg-primary hover:text-primary-foreground transition-colors min-h-[32px]"
+              aria-pressed="false"
+              data-tag="meta"
+            >
+              meta
+            </button>
+            <!-- Clear button -->
+            <button
+              class="inline-flex items-center px-2.5 py-1.5 bg-muted text-muted-foreground rounded-lg text-xs font-medium hover:bg-accent hover:text-accent-foreground transition-colors min-h-[32px]"
+              id="clear-tags"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      </div>
       <!-- Blog Posts List -->
       <div class="space-y-0" id="posts-list">
         <div
           class="post-item"
+          data-tags="ai"
         >
           <div class="post-line py-3 border-b border-border last:border-b-0">
             <a class="block group" href="/blog/ai-coding">
@@ -62,6 +105,7 @@
         </div>
         <div
           class="post-item"
+          data-tags="meta"
         >
           <div class="post-line py-3 border-b border-border last:border-b-0">
             <a class="block group" href="/blog/better-software">
@@ -91,6 +135,7 @@
         </div>
         <div
           class="post-item"
+          data-tags="meta"
         >
           <div class="post-line py-3 border-b border-border last:border-b-0">
             <a class="block group" href="/blog/why">
@@ -119,6 +164,13 @@
           </div>
         </div>
       </div>
+      <!-- No Results Message -->
+      <div class="text-center py-12" id="no-results" hidden>
+        <p class="text-muted-foreground text-lg">
+          No blog posts found for this filter.
+        </p>
+      </div>
     </main>
+    <script src="/assets/blog-filter.js"></script>
   </body>
 </html>
