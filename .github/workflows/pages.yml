@@ -1,0 +1,92 @@
+name: Deploy site to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Detect site format
+        id: site
+        shell: bash
+        run: |
+          if [[ -f package.json && -f astro.config.mjs ]]; then
+            echo "format=astro" >> "$GITHUB_OUTPUT"
+            echo "artifact_path=dist" >> "$GITHUB_OUTPUT"
+          else
+            echo "format=static" >> "$GITHUB_OUTPUT"
+            echo "artifact_path=_site" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Setup Bun
+        if: steps.site.outputs.format == 'astro'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Build Astro site
+        if: steps.site.outputs.format == 'astro'
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+
+      - name: Prepare static site
+        if: steps.site.outputs.format == 'static'
+        run: |
+          mkdir _site
+          rsync -a \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude '.gitignore' \
+            --exclude '.DS_Store' \
+            --exclude '_site/' \
+            --exclude 'AGENTS.md' \
+            --exclude 'README.md' \
+            ./ _site/
+
+      - name: Verify site output
+        env:
+          ARTIFACT_PATH: ${{ steps.site.outputs.artifact_path }}
+        run: |
+          test -f "$ARTIFACT_PATH/index.html"
+          html_count=$(find "$ARTIFACT_PATH" -type f -name '*.html' | wc -l)
+          css_count=$(find "$ARTIFACT_PATH" -type f -name '*.css' | wc -l)
+          if [[ "$html_count" -eq 0 || "$css_count" -eq 0 ]]; then
+            echo "Expected HTML and CSS files in $ARTIFACT_PATH"
+            exit 1
+          fi
+          echo "Prepared $html_count HTML files and $css_count CSS files from the ${{ steps.site.outputs.format }} site."
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.site.outputs.artifact_path }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
