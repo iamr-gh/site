@@ -22,26 +22,19 @@
   <body
     class="font-sans font-noto-sans"
     data-on:keydown__window="$tocOpen = evt.key === 'Escape' ? false : $tocOpen"
-    data-on:scroll__window__throttle.50ms="$progress = document.documentElement.scrollHeight &gt; window.innerHeight ? window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100 : 0"
-    data-signals="{tocOpen: false, progress: 0}"
+    data-signals="{tocOpen: false}"
   >
     <header
-      class="p-3 md:p-4 border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-50"
+      class="p-3 md:p-4 border-b sticky top-0 bg-background z-50"
     >
       <nav class="container flex justify-between items-center">
         <a class="text-xl font-light tracking-wide" href="/">iamr</a>
         <!-- Navigation - Unified for mobile and desktop -->
         <ul class="flex gap-4 font-light text-sm sm:text-base">
           <li><a class="hover:underline" href="/blog">Blog</a></li>
-          <li><a class="hover:underline" href="/projects">Projects</a></li>
         </ul>
       </nav>
     </header>
-    <div
-      class="reading-progress"
-      data-style:width="$progress + '%'"
-      id="reading-progress"
-    ></div>
     <main class="py-8">
       <div
         data-effect="document.body.style.overflow = $tocOpen ? 'hidden' : ''"

@@ -20,13 +20,12 @@
     <script src="/assets/datastar.js" type="module"></script>
   </head>
   <body class="font-sans font-noto-sans" data-signals="{query: '', tag: ''}">
-    <header class="p-3 md:p-4 border-b">
+    <header class="p-3 md:p-4 border-b bg-background">
       <nav class="container flex justify-between items-center">
         <a class="text-xl font-light tracking-wide" href="/">iamr</a>
         <!-- Navigation - Unified for mobile and desktop -->
         <ul class="flex gap-4 font-light text-sm sm:text-base">
           <li><a class="hover:underline" href="/blog">Blog</a></li>
-          <li><a class="hover:underline" href="/projects">Projects</a></li>
         </ul>
       </nav>
     </header>
@@ -122,39 +121,6 @@
                   class="text-base sm:text-lg font-medium group-hover:underline underline-offset-4 decoration-primary transition-all line-clamp-2"
                 >
                   Experiments in AI Coding
-                </h3>
-                <div class="flex flex-wrap items-center gap-2 sm:gap-4">
-                  <span
-                    class="inline-flex items-center px-2 py-1 bg-secondary text-secondary-foreground rounded-lg text-xs font-medium whitespace-nowrap"
-                  >
-                    ai
-                  </span>
-                  <p
-                    class="text-xs sm:text-sm text-muted-foreground whitespace-nowrap"
-                  >
-                    Jan 8, 2026
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div
-          class="post-item"
-          data-description="Designing a Coding Agent"
-          data-show="($query === '' || el.dataset.title.toLowerCase().includes($query.toLowerCase()) || el.dataset.description.toLowerCase().includes($query.toLowerCase()) || el.dataset.tags.toLowerCase().includes($query.toLowerCase())) &amp;&amp; ($tag === '' || el.dataset.tags.split(' ').includes($tag))"
-          data-tags="ai"
-          data-title="Building a Coding Agent"
-        >
-          <div class="post-line py-3 border-b border-border last:border-b-0">
-            <a class="block group" href="/blog/coding-agent">
-              <div
-                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4"
-              >
-                <h3
-                  class="text-base sm:text-lg font-medium group-hover:underline underline-offset-4 decoration-primary transition-all line-clamp-2"
-                >
-                  Building a Coding Agent
                 </h3>
                 <div class="flex flex-wrap items-center gap-2 sm:gap-4">
                   <span
