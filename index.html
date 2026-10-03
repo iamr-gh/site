@@ -17,13 +17,8 @@
       rel="stylesheet"
     />
     <link href="/assets/site.css" rel="stylesheet" />
-    <script src="/assets/datastar.js" type="module"></script>
   </head>
-  <body
-    class="font-sans font-noto-sans"
-    data-on-interval__duration.3000ms="$interestIndex = ($interestIndex + 1) % $interests.length"
-    data-signals="{interestIndex: 0, interests: ['machine learning', 'compilers', 'programming languages', 'computer architecture']}"
-  >
+  <body class="font-sans font-noto-sans">
     <header class="p-3 md:p-4 border-b">
       <nav class="container flex justify-between items-center">
         <a class="text-xl font-light tracking-wide" href="/">iamr</a>
@@ -42,17 +37,6 @@
         >
           Ibrahim Musaddequr Rahman
         </h1>
-        <p
-          class="text-base sm:text-lg md:text-xl text-muted-foreground font-light animate-slide-up-delayed"
-        >
-          curious about
-          <span
-            class="text-primary"
-            data-text="$interests[$interestIndex]"
-            id="interest-text"
-            >machine learning</span
-          >
-        </p>
         <!-- Social Links -->
         <div class="flex gap-3 justify-center pt-6 animate-icons-appear">
           <a
