@@ -2,14 +2,14 @@ let prevQrCode = null;
 
 function makeQRCode(str) {
   const errorMessage = document.getElementById("error-message");
-  
+
   if (str.length > 17) {
     errorMessage.classList.remove("hidden");
     return;
   }
-  
+
   errorMessage.classList.add("hidden");
-  
+
   var arr = [];
   for (var i = 0; i < str.length; i++) {
     arr.push(str.charCodeAt(i));
@@ -56,23 +56,23 @@ function makeQRCode(str) {
       svg.appendChild(square);
     }
   }
-  
+
   // console.log("QR code generated with", boolQrCode.length, "rows and", boolQrCode[0].length, "columns"); // Removed for performance
-  
+
   prevQrCode = boolQrCode;
 }
 
 function downloadSVG() {
   const svg = document.getElementById("qr-code-svg");
   const input = document.getElementById("qr-input");
-  const filename = input.value.replace(/\./g, '-') || 'qr-code';
+  const filename = input.value.replace(/\./g, "-") || "qr-code";
   svg.style.backgroundColor = "white"; // Temporarily set background to white
   const serializer = new XMLSerializer();
   const svgStr = serializer.serializeToString(svg);
   svg.style.backgroundColor = ""; // Reset background
-  const blob = new Blob([svgStr], {type: 'image/svg+xml'});
+  const blob = new Blob([svgStr], { type: "image/svg+xml" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
   a.download = `${filename}.svg`;
   document.body.appendChild(a);
@@ -84,18 +84,18 @@ function downloadSVG() {
 function downloadPNG() {
   const svg = document.getElementById("qr-code-svg");
   const input = document.getElementById("qr-input");
-  const filename = input.value.replace(/\./g, '-') || 'qr-code';
+  const filename = input.value.replace(/\./g, "-") || "qr-code";
   svg.style.backgroundColor = "white"; // Temporarily set background to white
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
-  const data = (new XMLSerializer()).serializeToString(svg);
+  const data = new XMLSerializer().serializeToString(svg);
   const DOMURL = window.URL || window.webkitURL || window;
-  
+
   const img = new Image();
-  const svgBlob = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+  const svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8" });
   const url = DOMURL.createObjectURL(svgBlob);
-  
-  img.onload = function() {
+
+  img.onload = function () {
     canvas.width = img.width;
     canvas.height = img.height;
     ctx.fillStyle = "white";
@@ -103,23 +103,23 @@ function downloadPNG() {
     ctx.drawImage(img, 0, 0);
     DOMURL.revokeObjectURL(url);
     svg.style.backgroundColor = ""; // Reset background
-    
+
     const imgURI = canvas
-      .toDataURL('image/png')
-      .replace('image/png', 'image/octet-stream');
-    
-    const a = document.createElement('a');
+      .toDataURL("image/png")
+      .replace("image/png", "image/octet-stream");
+
+    const a = document.createElement("a");
     a.href = imgURI;
     a.download = `${filename}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   };
-  
+
   img.src = url;
 }
 
 // Initialize with a default QR code
-document.addEventListener('DOMContentLoaded', function() {
-  makeQRCode('Hello World');
+document.addEventListener("DOMContentLoaded", function () {
+  makeQRCode("Hello World");
 });
